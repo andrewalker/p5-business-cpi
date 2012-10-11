@@ -1,7 +1,6 @@
 package CPI::Gateway::Test;
 use Moose;
 use namespace::autoclean;
-use HTML::Element;
 
 extends 'CPI::Gateway::Base';
 

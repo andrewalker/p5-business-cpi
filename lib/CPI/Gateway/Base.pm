@@ -5,6 +5,7 @@ use MooseX::Types::Locale::Currency qw( CurrencyCode );
 use MooseX::Types::Email qw( EmailAddress );
 use CPI::Cart;
 use CPI::Buyer;
+use HTML::Element;
 use namespace::autoclean;
 
 has name => (
