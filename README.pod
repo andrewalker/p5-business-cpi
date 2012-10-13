@@ -21,11 +21,11 @@ CPI - Common Payment Interface
     # the method names and arguments are similar
     my $pag_transactions = $pagseguro->query_transactions({
         start_date => DateTime->now->subtract({ days => 5 }),
-        end_date   => DateTime->now,
+        final_date => DateTime->now,
     });
     my $pay_transactions = $paypal->query_transactions({
         start_date => DateTime->now->subtract({ days => 5 }),
-        end_date   => DateTime->now,
+        final_date => DateTime->now,
     });
 
 =head1 DESCRIPTION
@@ -87,6 +87,64 @@ many carts as desired.
 In your template, you could have, for instance:
 
     [% form.as_HTML %]
+
+=head2 Querying payments
+
+Sometimes it is useful to query all the transactions that were made in your
+account in a given period of time.
+
+For instance:
+
+    my $payments = $cpi->query_transactions({
+        start_date => DateTime->now()->subtract({ days => 7 }),
+        final_date => DateTime->now(),
+        page       => $page,
+    });
+
+$payments would look something like:
+
+    {
+        results_in_this_page => 50,
+        total_pages          => 2,
+        current_page         => 1,
+        transactions         => [ {}, {}, {}, ... ],
+    }
+
+Please note that some gateways (such as PayPal) do not support paging. So the
+page number will always be 1.
+
+If you already know the code of the payment you need information about:
+
+    my $transaction = $cpi->get_transaction_details($code);
+
+=head2 Automatic notification
+
+Gateways provide a way to automatically inform your application when the
+payments are completed, or fail. Using CPI, the only thing you need to do is
+hand the request to C<< $cpi->notify() >>.
+
+You can save the notification url used in your app when building the CPI
+object, like this:
+
+    my $cpi = CPI->new(
+        # ...
+        notify_url => 'https://myserver/myapp/notification/' . $gateway_name,
+        # ...
+    );
+
+This way, this url will be sent to the gateway when the checkout form is sent.
+
+Then, in your application, the action corresponding to the URL above, you would
+have:
+
+    my $data = $cpi->notify($req);
+    $db->find($data->{payment_id})->update({ status => $data->{status} });
+
+The above code would work without change with any gateway. C< notify > parses
+the request, and returns a standard hash ref.
+
+C< $req > can be a CGI object, or anything compatible, such as
+Catalyst::Request.
 
 =head1 CAVEATS
 
