@@ -38,18 +38,55 @@ and so forth. But each of these are completely different.
 CPI provides a common interface, making it really easy to support several
 payment gateways in a single application.
 
-=head1 METHODS
+=head2 Making payments
 
-=head2 new
+This is probably the main point of this module: submit a checkout form to the
+gateway. Currently, this is only implemented using HTML forms. This may change
+in the future, as many gateways provide API's for paying using SOAP, NVP, etc.
 
-Loads and instantiates the gateway. Requires the key 'gateway', and returns the
-instance of CPI::Gateway::$gateway. All the other arguments are passed to the
-gateway constructor.
+To submit a payment, first we make a CPI object:
 
-Example:
+    my $cpi = CPI->new(
+        gateway        => 'Test',
 
-    my $test1 = CPI->new(gateway => 'Test', %data);
-    my $test2 = CPI::Gateway::Test->new(%data);     # exactly the same as above
+        # the person who will receive the money
+        receiver_email => 'john@doe.com',
+
+        currency       => 'BRL',
+        # ...
+    );
+
+In a persistent environment, such as a Catalyst application, there would be no
+need to build a new CPI object by request. A single CPI object can handle as
+many carts as desired.
+
+    my $cart = $cpi->new_cart({
+        buyer => {
+            email => 'buyer@doe.com',
+            name  => 'Mr. Buyer',
+            # ...
+        },
+    });
+
+    $cart->add_item({
+        id          => 'ref123',
+        description => 'X-Burguer',
+        price       => 10.50,
+        quantity    => 1,
+    });
+
+    $cart->add_item({
+        id          => 'ref33',
+        description => 'Orange juice',
+        price       => 3.00,
+        quantity    => 2,
+    });
+
+    my $form = $cart->get_form; # HTML::Element form
+
+In your template, you could have, for instance:
+
+    [% form.as_HTML %]
 
 =head1 CAVEATS
 
