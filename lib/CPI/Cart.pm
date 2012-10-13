@@ -1,4 +1,6 @@
 package CPI::Cart;
+# ABSTRACT: Shopping cart
+
 use Moose;
 use CPI::Item;
 use namespace::autoclean;
@@ -61,42 +63,20 @@ __PACKAGE__->meta->make_immutable;
 
 __END__
 
-=encoding utf8
-
-=head1 NAME
-
-CPI::Cart - Shopping cart
-
 =head1 DESCRIPTION
 
 Cart class for holding products to be purchased. Don't instantiate this
 directly, use L<CPI::Gateway::Base/new_cart> to build it.
 
-=head1 METHODS
-
-=head2 add_item
+=method add_item
 
 Create a new CPI::Item object with the given hashref, and add it to cart.
 
-=head2 get_item
+=method get_item
 
 Get item with the given id.
 
-=head2 get_form_to_pay
+=method get_form_to_pay
 
 Takes a payment_id as the only argument, and returns an HTML::Element form, to
 submit to the gateway.
-
-=head1 CAVEATS
-
-This is alpha software. The interface is unstable, and may change without
-notice.
-
-=head1 AUTHOR
-
-André Walker
-
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify it under
-the same terms as Perl itself.

@@ -1,4 +1,6 @@
 package CPI;
+# ABSTRACT: Common Payment Interface
+
 use warnings;
 use strict;
 use Class::Load;
@@ -19,12 +21,6 @@ sub new {
 1;
 
 __END__
-
-=encoding utf8
-
-=head1 NAME
-
-CPI - Common Payment Interface
 
 =head1 SYNOPSIS
 
@@ -60,9 +56,7 @@ and so forth. But each of these are completely different.
 CPI provides a common interface, making it really easy to support several
 payment gateways in a single application.
 
-=head1 METHODS
-
-=head2 new
+=method new
 
 Loads and instantiates the gateway. Requires the key 'gateway', and returns the
 instance of CPI::Gateway::$gateway. All the other arguments are passed to the
@@ -77,12 +71,3 @@ Example:
 
 This is alpha software. The interface is unstable, and may change without
 notice.
-
-=head1 AUTHOR
-
-André Walker
-
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify it under
-the same terms as Perl itself.

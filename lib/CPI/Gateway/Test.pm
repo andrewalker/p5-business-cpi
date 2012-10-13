@@ -1,4 +1,6 @@
 package CPI::Gateway::Test;
+# ABSTRACT: Fake gateway
+
 use Moose;
 use namespace::autoclean;
 
@@ -44,26 +46,6 @@ __PACKAGE__->meta->make_immutable;
 
 __END__
 
-=encoding utf8
-
-=head1 NAME
-
-CPI::Gateway::Test - Fake gateway
-
 =head1 DESCRIPTION
 
 Used only for testing. See the t/ directory in this distribution.
-
-=head1 CAVEATS
-
-This is alpha software. The interface is unstable, and may change without
-notice.
-
-=head1 AUTHOR
-
-André Walker
-
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify it under
-the same terms as Perl itself.
