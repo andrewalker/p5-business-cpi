@@ -1,25 +1,24 @@
 package CPI::Item;
 # ABSTRACT: Product in the cart
-use Moose;
-use namespace::autoclean;
+use Moo;
 
 has id => (
-    isa => 'Str',
+    coerce => sub { '' . $_[0] },
     is => 'ro',
 );
 
 has price => (
-    isa => 'Num',
+    coerce => sub { 0 + $_[0] },
     is => 'ro',
 );
 
 has description => (
-    isa => 'Str',
+    coerce => sub { '' . $_[0] },
     is => 'ro',
 );
 
 has quantity => (
-    isa => 'Int',
+    coerce => sub { int $_[0] },
     is => 'ro',
 );
 
@@ -29,8 +28,6 @@ around price => sub {
 
     return sprintf( "%.2f", $self->$orig(@_) );
 };
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 

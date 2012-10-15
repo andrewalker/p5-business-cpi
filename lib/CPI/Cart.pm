@@ -1,38 +1,30 @@
 package CPI::Cart;
 # ABSTRACT: Shopping cart
 
-use Moose;
+use Moo;
 use CPI::Item;
-use namespace::autoclean;
 
 has buyer => (
     is => 'ro',
-    isa => 'CPI::Buyer',
+    isa => sub { $_[0]->isa('CPI::Buyer') or die "Must be a CPI::Buyer" },
 );
 
 has _gateway => (
     is => 'ro',
-    isa => 'CPI::Gateway::Base',
+    isa => sub { $_[0]->isa('CPI::Gateway::Base') or die "Must be a CPI::Gateway::Base" },
 );
 
 has _items => (
     is => 'ro',
-    isa => 'ArrayRef[CPI::Item]',
-    traits => [ 'Array' ],
-    handles => {
-        _add_item  => 'push',
-        _get_item  => 'get',
-        count      => 'count',
-        has_items  => 'count',
-        items      => 'elements',
-    },
+    #isa => 'ArrayRef[CPI::Item]',
+    default => sub { [] },
 );
 
 sub get_item {
     my ($self, $item_id) = @_;
 
-    for (my $i = 0; $i < $self->count; $i++) {
-        my $item = $self->_get_item($i);
+    for (my $i = 0; $i < @{ $self->_items }; $i++) {
+        my $item = $self->_items->[$i];
         if ($item->id eq "$item_id") {
             return $item;
         }
@@ -44,7 +36,11 @@ sub get_item {
 sub add_item {
     my ($self, $info) = @_;
 
-    return $self->_add_item(CPI::Item->new($info));
+    my $item = ref $info && ref $info eq 'CPI::Item' ? $info : CPI::Item->new($info);
+
+    push @{ $self->_items }, $item;
+
+    return $item;
 }
 
 sub get_form_to_pay {
@@ -52,12 +48,10 @@ sub get_form_to_pay {
 
     return $self->_gateway->get_form({
         payment_id => $payment,
-        items      => [ $self->items ],
+        items      => [ @{ $self->_items } ], # make a copy for security
         buyer      => $self->buyer,
     });
 }
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 

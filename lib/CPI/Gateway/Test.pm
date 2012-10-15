@@ -1,8 +1,7 @@
 package CPI::Gateway::Test;
 # ABSTRACT: Fake gateway
 
-use Moose;
-use namespace::autoclean;
+use Moo;
 
 extends 'CPI::Gateway::Base';
 
@@ -39,8 +38,6 @@ sub get_hidden_inputs {
 # sub get_notification_details {}
 # sub query_transactions {}
 # sub get_transaction_details {}
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 

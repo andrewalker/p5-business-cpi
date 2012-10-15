@@ -1,14 +1,15 @@
 package CPI::Buyer;
-use Moose;
-use namespace::autoclean;
+use Moo;
 
 has email => (
-    isa => 'Str',
+    isa => sub {
+        Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
+    },
     is => 'ro',
 );
 
 has name => (
-    isa => 'Str',
+#    isa => 'Str',
     is => 'ro',
 );
 
@@ -17,8 +18,6 @@ has name => (
 #
 # try and find the common ones between PagSeguro / PayPal / etc, and keep them
 # here. Specific attrs can stay in CPI::Buyer::${gateway}
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 

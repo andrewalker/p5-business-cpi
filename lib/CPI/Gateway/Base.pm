@@ -1,17 +1,17 @@
 package CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
-use Moose;
+use Moo;
 use Carp;
-use MooseX::Types::Locale::Currency qw( CurrencyCode );
-use MooseX::Types::Email qw( EmailAddress );
+use Locale::Currency ();
+use Email::Valid ();
+use List::Util ();
 use CPI::Cart;
 use CPI::Buyer;
 use HTML::Element;
-use namespace::autoclean;
 
 has name => (
     is      => 'ro',
-    isa     => 'Str',
+#    isa     => 'Str',
     default => sub {
         my $self  = shift;
         my $class = ref $self;
@@ -21,52 +21,49 @@ has name => (
 );
 
 has receiver_email => (
-    isa => EmailAddress,
-    is  => 'ro',
+    isa => sub {
+        Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
+    },
+    is => 'ro',
 );
 
 has currency => (
-    isa => CurrencyCode,
-    is  => 'ro',
+    isa => sub {
+        my $curr = uc( $_[0] );
+        my @codes = Locale::Currency::all_currency_codes();
+        List::Util::first { $curr eq uc($_) } @codes
+          || die "Must be a valid currency code";
+    },
+    coerce => sub { uc $_[0] },
+    is => 'ro',
 );
 
 has checkout_url => (
     is => 'ro',
-    isa => 'Str',
 );
 
 has checkout_form_http_method => (
     is => 'ro',
-    isa => 'Str',
-    default => 'post',
+    default => sub { 'post' },
 );
 
 has checkout_form_submit_name => (
     is => 'ro',
-    isa => 'Str',
-    default => 'submit',
+    default => sub { 'submit' },
 );
 
 has checkout_form_submit_value => (
     is => 'ro',
-    isa => 'Str',
-    default => '',
+    default => sub { '' },
 );
 
 has form_encoding => (
     is      => 'ro',
-    isa     => 'Str',
-    default => 'UTF-8',
+    # TODO: use Encode::find_encoding()
+    default => sub { 'UTF-8' },
 );
 
 # TODO: submit image
-
-around currency => sub {
-    my $orig = shift;
-    my $self = shift;
-
-    return uc $self->$orig(@_);
-};
 
 sub new_cart {
     my ( $self, $info ) = @_;
@@ -130,8 +127,6 @@ sub get_notification_details {}
 sub query_transactions {}
 
 sub get_transaction_details {}
-
-__PACKAGE__->meta->make_immutable;
 
 1;
 
