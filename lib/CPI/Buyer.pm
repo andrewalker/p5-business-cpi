@@ -26,3 +26,11 @@ __END__
 =head1 DESCRIPTION
 
 This class holds information about the buyer in a shopping cart.
+
+=attr email
+
+Buyer's e-mail, which usually is their unique identifier in the gateway.
+
+=attr name
+
+Buyer's name.

@@ -193,3 +193,10 @@ Search past transactions.
 =method get_transaction_details
 
 Get more details about a given transaction.
+
+=method get_hidden_inputs
+
+This method is called when building the checkout form. It will return a hashref
+with the field names and field values for the form. This way the gateway will
+implement only this method, while the rest of the form will be built by this
+class.

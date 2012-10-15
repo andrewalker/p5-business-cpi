@@ -36,3 +36,20 @@ __END__
 =head1 DESCRIPTION
 
 This class holds information about the products in a shopping cart.
+
+=attr id
+
+Unique identifier for this product in your application.
+
+=attr price
+
+The price (in the chosen currency; see L<CPI::Gateway::Base/currency>) of one
+item. This will be multiplied by the quantity.
+
+=attr description
+
+The description or name of the product.
+
+=attr quantity
+
+How many of this product is being bought?

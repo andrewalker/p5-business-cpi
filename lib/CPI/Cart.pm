@@ -62,6 +62,10 @@ __END__
 Cart class for holding products to be purchased. Don't instantiate this
 directly, use L<CPI::Gateway::Base/new_cart> to build it.
 
+=attr buyer
+
+The person paying for the shopping cart. See L<CPI::Buyer>.
+
 =method add_item
 
 Create a new CPI::Item object with the given hashref, and add it to cart.
