@@ -1,9 +1,9 @@
-package CPI::Gateway::Test;
+package Business::CPI::Gateway::Test;
 # ABSTRACT: Fake gateway
 
 use Moo;
 
-extends 'CPI::Gateway::Base';
+extends 'Business::CPI::Gateway::Base';
 
 sub get_hidden_inputs {
     my ( $self, $info ) = @_;

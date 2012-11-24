@@ -1,12 +1,12 @@
-package CPI::Gateway::Base;
+package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
 use Carp;
 use Locale::Currency ();
 use Email::Valid ();
 use List::Util ();
-use CPI::Cart;
-use CPI::Buyer;
+use Business::CPI::Cart;
+use Business::CPI::Buyer;
 use HTML::Element;
 
 has name => (
@@ -69,12 +69,12 @@ sub new_cart {
     my ( $self, $info ) = @_;
 
     my @items =
-      map { ref $_ eq 'CPI::Item' ? $_ : CPI::Item->new($_) }
+      map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
       @{ delete $info->{items} || [] };
 
-    my $buyer = CPI::Buyer->new( delete $info->{buyer} );
+    my $buyer = Business::CPI::Buyer->new( delete $info->{buyer} );
 
-    return CPI::Cart->new(
+    return Business::CPI::Cart->new(
         _gateway => $self,
         _items   => \@items,
         buyer    => $buyer,
@@ -174,12 +174,12 @@ Defaults to UTF-8.
 
 =method new_cart
 
-Creates a new L<CPI::Cart> connected to this gateway.
+Creates a new L<Business::CPI::Cart> connected to this gateway.
 
 =method get_form
 
-Get the form to checkout. Use the method in L<CPI::Cart>, don't use this method
-directly.
+Get the form to checkout. Use the method in L<Business::CPI::Cart>, don't use
+this method directly.
 
 =method get_notification_details
 

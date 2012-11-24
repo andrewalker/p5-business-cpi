@@ -1,22 +1,22 @@
-package CPI::Cart;
+package Business::CPI::Cart;
 # ABSTRACT: Shopping cart
 
 use Moo;
-use CPI::Item;
+use Business::CPI::Item;
 
 has buyer => (
     is => 'ro',
-    isa => sub { $_[0]->isa('CPI::Buyer') or die "Must be a CPI::Buyer" },
+    isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
 );
 
 has _gateway => (
     is => 'ro',
-    isa => sub { $_[0]->isa('CPI::Gateway::Base') or die "Must be a CPI::Gateway::Base" },
+    isa => sub { $_[0]->isa('Business::CPI::Gateway::Base') or die "Must be a CPI::Gateway::Base" },
 );
 
 has _items => (
     is => 'ro',
-    #isa => 'ArrayRef[CPI::Item]',
+    #isa => 'ArrayRef[Business::CPI::Item]',
     default => sub { [] },
 );
 
@@ -36,7 +36,7 @@ sub get_item {
 sub add_item {
     my ($self, $info) = @_;
 
-    my $item = ref $info && ref $info eq 'CPI::Item' ? $info : CPI::Item->new($info);
+    my $item = ref $info && ref $info eq 'Business::CPI::Item' ? $info : Business::CPI::Item->new($info);
 
     push @{ $self->_items }, $item;
 
@@ -60,15 +60,16 @@ __END__
 =head1 DESCRIPTION
 
 Cart class for holding products to be purchased. Don't instantiate this
-directly, use L<CPI::Gateway::Base/new_cart> to build it.
+directly, use L<Business::CPI::Gateway::Base/new_cart> to build it.
 
 =attr buyer
 
-The person paying for the shopping cart. See L<CPI::Buyer>.
+The person paying for the shopping cart. See L<Business::CPI::Buyer>.
 
 =method add_item
 
-Create a new CPI::Item object with the given hashref, and add it to cart.
+Create a new Business::CPI::Item object with the given hashref, and add it to
+cart.
 
 =method get_item
 

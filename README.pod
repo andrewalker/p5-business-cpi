@@ -2,17 +2,17 @@
 
 =head1 NAME
 
-CPI - Common Payment Interface
+Business::CPI - Common Payment Interface
 
 =head1 SYNOPSIS
 
     # the objects are created with the same keys
-    my $paypal = CPI->new(
+    my $paypal = Business::CPI->new(
         gateway        => "PayPal",
         receiver_email => "test@example.com",
         ...
     );
-    my $pagseguro = CPI->new(
+    my $pagseguro = Business::CPI->new(
         gateway        => "PagSeguro",
         receiver_email => "test@example.com",
         ...
@@ -30,13 +30,13 @@ CPI - Common Payment Interface
 
 =head1 DESCRIPTION
 
-CPI intends to create a common interface between different payment gateways
-interfaces. There are on CPAN a few modules which provide interfaces for
-payment API's like PayPal (Business::PayPal::*), PagSeguro (PagSeguro::Status),
-and so forth. But each of these are completely different.
+Business::CPI intends to create a common interface between different payment
+gateways interfaces. There are on CPAN a few modules which provide interfaces
+for payment API's like PayPal (Business::PayPal::*), PagSeguro
+(PagSeguro::Status), and so forth. But each of these are completely different.
 
-CPI provides a common interface, making it really easy to support several
-payment gateways in a single application.
+Business::CPI provides a common interface, making it really easy to support
+several payment gateways in a single application.
 
 =head2 Making payments
 
@@ -44,9 +44,9 @@ This is probably the main point of this module: submit a checkout form to the
 gateway. Currently, this is only implemented using HTML forms. This may change
 in the future, as many gateways provide API's for paying using SOAP, NVP, etc.
 
-To submit a payment, first we make a CPI object:
+To submit a payment, first we make a Business::CPI object:
 
-    my $cpi = CPI->new(
+    my $cpi = Business::CPI->new(
         gateway        => 'Test',
 
         # the person who will receive the money
@@ -57,8 +57,8 @@ To submit a payment, first we make a CPI object:
     );
 
 In a persistent environment, such as a Catalyst application, there would be no
-need to build a new CPI object by request. A single CPI object can handle as
-many carts as desired.
+need to build a new Business::CPI object by request. A single Business::CPI
+object can handle as many carts as desired.
 
     my $cart = $cpi->new_cart({
         buyer => {
@@ -120,13 +120,13 @@ If you already know the code of the payment you need information about:
 =head2 Automatic notification
 
 Gateways provide a way to automatically inform your application when the
-payments are completed, or fail. Using CPI, the only thing you need to do is
-hand the request to C<< $cpi->notify() >>.
+payments are completed, or fail. Using Business::CPI, the only thing you need
+to do is hand the request to C<< $cpi->notify() >>.
 
-You can save the notification url used in your app when building the CPI
-object, like this:
+You can save the notification url used in your app when building the
+Business::CPI object, like this:
 
-    my $cpi = CPI->new(
+    my $cpi = Business::CPI->new(
         # ...
         notify_url => 'https://myserver/myapp/notification/' . $gateway_name,
         # ...

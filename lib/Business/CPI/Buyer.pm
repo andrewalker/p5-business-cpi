@@ -1,4 +1,4 @@
-package CPI::Buyer;
+package Business::CPI::Buyer;
 use Moo;
 
 has email => (
@@ -17,7 +17,7 @@ has name => (
 # add all the other attrs.
 #
 # try and find the common ones between PagSeguro / PayPal / etc, and keep them
-# here. Specific attrs can stay in CPI::Buyer::${gateway}
+# here. Specific attrs can stay in Business::CPI::Buyer::${gateway}
 
 1;
 

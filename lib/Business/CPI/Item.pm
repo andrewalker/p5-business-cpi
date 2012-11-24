@@ -1,4 +1,4 @@
-package CPI::Item;
+package Business::CPI::Item;
 # ABSTRACT: Product in the cart
 use Moo;
 
@@ -43,8 +43,9 @@ Unique identifier for this product in your application.
 
 =attr price
 
-The price (in the chosen currency; see L<CPI::Gateway::Base/currency>) of one
-item. This will be multiplied by the quantity.
+The price (in the chosen currency; see
+L<Business::CPI::Gateway::Base/currency>) of one item. This will be multiplied
+by the quantity.
 
 =attr description
 

@@ -2,10 +2,10 @@
 use warnings;
 use strict;
 use Test::More;
-use CPI;
+use Business::CPI;
 
 my $cpi = eval {
-    CPI->new(
+    Business::CPI->new(
         gateway          => 'Test',
         receiver_email   => 'receiver@andrewalker.net',
         currency         => 'BRL',
@@ -20,7 +20,7 @@ if ($@) {
     diag $@;
 }
 
-isa_ok($cpi, 'CPI::Gateway::Test');
+isa_ok($cpi, 'Business::CPI::Gateway::Test');
 
 my $cart = $cpi->new_cart({
     buyer => {
@@ -67,7 +67,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'CPI::Item');
+    isa_ok($item, 'Business::CPI::Item');
     is($item->id,          '1',              'item id is correct');
     is($item->description, 'Expensive item', 'item desc is correct');
     isnt($item->price,     200.5,            'item price is not numeric');
@@ -85,7 +85,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'CPI::Item');
+    isa_ok($item, 'Business::CPI::Item');
     is($item->id,          '02',           'item id is correct');
     is($item->description, 'Cheap item',   'item desc is correct');
     is($item->price,       '0.56',         'item price is correct');
@@ -102,7 +102,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'CPI::Item');
+    isa_ok($item, 'Business::CPI::Item');
 
     is($item->id,          '03',         'item id is correct');
     is($item->description, 'Third item', 'item desc is correct');
@@ -121,7 +121,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'CPI::Item');
+    isa_ok($item, 'Business::CPI::Item');
 
     is($item->id,          'my-id',          'item id is correct');
     is($item->description, 'Real string id', 'item desc is correct');
