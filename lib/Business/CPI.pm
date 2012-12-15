@@ -5,6 +5,8 @@ use warnings;
 use strict;
 use Class::Load;
 
+# VERSION
+
 sub new {
     my $class = shift;
 

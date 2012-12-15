@@ -3,6 +3,8 @@ package Business::CPI::Gateway::Test;
 
 use Moo;
 
+# VERSION
+
 extends 'Business::CPI::Gateway::Base';
 
 sub get_hidden_inputs {

@@ -2,6 +2,8 @@ package Business::CPI::Item;
 # ABSTRACT: Product in the cart
 use Moo;
 
+# VERSION
+
 has id => (
     coerce => sub { '' . $_[0] },
     is => 'ro',

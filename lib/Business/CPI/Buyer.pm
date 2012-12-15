@@ -1,6 +1,8 @@
 package Business::CPI::Buyer;
 use Moo;
 
+# VERSION
+
 has email => (
     isa => sub {
         Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";

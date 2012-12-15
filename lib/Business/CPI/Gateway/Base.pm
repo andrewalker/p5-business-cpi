@@ -9,6 +9,8 @@ use Business::CPI::Cart;
 use Business::CPI::Buyer;
 use HTML::Element;
 
+# VERSION
+
 has name => (
     is      => 'ro',
 #    isa     => 'Str',

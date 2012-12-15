@@ -4,6 +4,8 @@ package Business::CPI::Cart;
 use Moo;
 use Business::CPI::Item;
 
+# VERSION
+
 has buyer => (
     is => 'ro',
     isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
