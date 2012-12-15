@@ -69,6 +69,10 @@ Example:
     my $test1 = Business::CPI->new(gateway => 'Test', %data);
     my $test2 = Business::CPI::Gateway::Test->new(%data);     # exactly the same as above
 
+=head1 SPONSORED BY
+
+Aware - http://www.aware.com.br
+
 =head1 CAVEATS
 
 This is alpha software. The interface is unstable, and may change without

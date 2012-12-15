@@ -146,6 +146,10 @@ the request, and returns a standard hash ref.
 C< $req > can be a CGI object, or anything compatible, such as
 Catalyst::Request.
 
+=head1 SPONSORED BY
+
+Aware - http://www.aware.com.br
+
 =head1 CAVEATS
 
 This is alpha software. The interface is unstable, and may change without
