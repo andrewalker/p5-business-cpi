@@ -71,7 +71,7 @@ Example:
 
 =head1 SPONSORED BY
 
-Aware - http://www.aware.com.br
+L<< Aware | http://www.aware.com.br >>
 
 =head1 CAVEATS
 
