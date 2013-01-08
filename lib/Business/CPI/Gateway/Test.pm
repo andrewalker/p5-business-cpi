@@ -10,14 +10,31 @@ extends 'Business::CPI::Gateway::Base';
 sub get_hidden_inputs {
     my ( $self, $info ) = @_;
 
+    my $buyer = $info->{buyer};
+
     my @hidden_inputs = (
         receiver_email => $self->receiver_email,
         currency       => $self->currency,
         encoding       => $self->form_encoding,
         payment_id     => $info->{payment_id},
-        buyer_name     => $info->{buyer}->name,
-        buyer_email    => $info->{buyer}->email,
+        buyer_name     => $buyer->name,
+        buyer_email    => $buyer->email,
     );
+
+    my %address = (
+        address_line1    => 'shipping_address',
+        address_line2    => 'shipping_address2',
+        address_city     => 'shipping_city',
+        address_state    => 'shipping_state',
+        address_country  => 'shipping_country',
+        address_zip_code => 'shipping_zip',
+    );
+
+    for (keys %address) {
+        if (my $value = $buyer->$_) {
+            push @hidden_inputs, ( $address{$_} => $value );
+        }
+    }
 
     my $i = 1;
 
