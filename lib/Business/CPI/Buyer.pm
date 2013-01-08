@@ -1,6 +1,7 @@
 package Business::CPI::Buyer;
 use Moo;
 use Locale::Country ();
+use Email::Valid ();
 
 # VERSION
 
