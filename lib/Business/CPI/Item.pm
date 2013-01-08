@@ -61,6 +61,24 @@ The price (in the chosen currency; see
 L<Business::CPI::Gateway::Base/currency>) of one item. This will be multiplied
 by the quantity.
 
+=attr shipping
+
+The shipping cost (in the chosen currency, same as in the price above) for this
+particular item.
+
+=attr shipping_additional
+
+The cost of each additional quantity of this item. For example, if the quantity
+is 5, the L</shipping> attribute is set to 1.50, and this attribute is set to
+0.50, then the total shipping cost will be 1*1.50 + 4*0.50 = 3.50. Note that
+not all gateways implement this. In PayPal, for instance, it's called
+shipping2.
+
+=attr weight
+
+The weight of this item. If you define the L</shipping>, this will probably be
+ignored by the gateway.
+
 =attr description
 
 The description or name of the product.

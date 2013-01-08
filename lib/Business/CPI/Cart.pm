@@ -88,6 +88,18 @@ directly, use L<Business::CPI::Gateway::Base/new_cart> to build it.
 
 The person paying for the shopping cart. See L<Business::CPI::Buyer>.
 
+=attr discount
+
+Discount to be applied to the total amount. Positive number.
+
+=attr tax
+
+Tax to be applied to the total amount. Positive number.
+
+=attr handling
+
+Handling to be applied to the total amount. Positive number.
+
 =method add_item
 
 Create a new Business::CPI::Item object with the given hashref, and add it to
