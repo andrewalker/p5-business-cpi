@@ -14,6 +14,18 @@ has price => (
     is => 'ro',
 );
 
+has weight => (
+    coerce => sub { 0 + $_[0] },
+    required => 0,
+    is => 'ro',
+);
+
+has shipping => (
+    coerce => sub { 0 + $_[0] },
+    required => 0,
+    is => 'ro',
+);
+
 has description => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
@@ -24,12 +36,15 @@ has quantity => (
     is => 'ro',
 );
 
-around price => sub {
+around price    => \&_fix_float;
+around shipping => \&_fix_float;
+
+sub _fix_float {
     my $orig = shift;
     my $self = shift;
 
     return sprintf( "%.2f", $self->$orig(@_) );
-};
+}
 
 1;
 

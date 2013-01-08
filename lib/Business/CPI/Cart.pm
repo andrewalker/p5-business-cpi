@@ -11,6 +11,28 @@ has buyer => (
     isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
 );
 
+has tax => (
+    coerce => sub { 0 + $_[0] },
+    required => 0,
+    is => 'ro',
+);
+
+has handling => (
+    coerce => sub { 0 + $_[0] },
+    required => 0,
+    is => 'ro',
+);
+
+has discount => (
+    coerce => sub { 0 + $_[0] },
+    required => 0,
+    is => 'ro',
+);
+
+around tax      => \&fix_float;
+around handling => \&fix_float;
+around discount => \&fix_float;
+
 has _gateway => (
     is => 'ro',
     isa => sub { $_[0]->isa('Business::CPI::Gateway::Base') or die "Must be a CPI::Gateway::Base" },
@@ -53,6 +75,13 @@ sub get_form_to_pay {
         items      => [ @{ $self->_items } ], # make a copy for security
         buyer      => $self->buyer,
     });
+}
+
+sub _fix_float {
+    my $orig = shift;
+    my $self = shift;
+
+    return sprintf( "%.2f", $self->$orig(@_) );
 }
 
 1;
