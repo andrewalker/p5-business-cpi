@@ -39,10 +39,11 @@ has address_country    => (
         }
     },
     coerce => sub {
+        my $country = lc $_[0];
         for (Locale::Country::all_country_codes()) {
-            return $_ if ($_ eq $_[0]);
+            return $_ if ($_ eq $country);
         }
-        return Locale::Country::country2code($_[0]);
+        return Locale::Country::country2code($country);
     },
 );
 
