@@ -11,6 +11,7 @@ sub get_hidden_inputs {
     my ( $self, $info ) = @_;
 
     my $buyer = $info->{buyer};
+    my $cart  = $info->{cart};
 
     my @hidden_inputs = (
         receiver_email => $self->receiver_email,
@@ -21,7 +22,7 @@ sub get_hidden_inputs {
         buyer_email    => $buyer->email,
     );
 
-    my %address = (
+    my %buyer_extra = (
         address_line1    => 'shipping_address',
         address_line2    => 'shipping_address2',
         address_city     => 'shipping_city',
@@ -30,9 +31,21 @@ sub get_hidden_inputs {
         address_zip_code => 'shipping_zip',
     );
 
-    for (keys %address) {
+    for (keys %buyer_extra) {
         if (my $value = $buyer->$_) {
-            push @hidden_inputs, ( $address{$_} => $value );
+            push @hidden_inputs, ( $buyer_extra{$_} => $value );
+        }
+    }
+
+    my %cart_extra = (
+        discount => 'discount_amount',
+        handling => 'handling_amount',
+        tax      => 'tax_amount',
+    );
+
+    for (keys %cart_extra) {
+        if (my $value = $cart->$_) {
+            push @hidden_inputs, ( $cart_extra{$_} => $value );
         }
     }
 
@@ -46,6 +59,15 @@ sub get_hidden_inputs {
             "item${i}_price" => $item->price,
             "item${i}_qty"   => $item->quantity,
           );
+
+        if (my $weight = $item->weight) {
+            push @hidden_inputs, ( "item${i}_weight" => $weight * 1000 ); # show in grams
+        }
+
+        if (my $ship = $item->shipping) {
+            push @hidden_inputs, ( "item${i}_shipping" => $ship );
+        }
+
         $i++;
     }
 

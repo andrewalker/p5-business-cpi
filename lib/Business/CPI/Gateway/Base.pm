@@ -80,6 +80,7 @@ sub new_cart {
         _gateway => $self,
         _items   => \@items,
         buyer    => $buyer,
+        %$info,
     );
 }
 
