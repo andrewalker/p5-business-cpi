@@ -29,9 +29,9 @@ has discount => (
     is => 'ro',
 );
 
-around tax      => \&fix_float;
-around handling => \&fix_float;
-around discount => \&fix_float;
+around tax      => \&_fix_float;
+around handling => \&_fix_float;
+around discount => \&_fix_float;
 
 has _gateway => (
     is => 'ro',
@@ -74,6 +74,7 @@ sub get_form_to_pay {
         payment_id => $payment,
         items      => [ @{ $self->_items } ], # make a copy for security
         buyer      => $self->buyer,
+        cart       => $self,
     });
 }
 
