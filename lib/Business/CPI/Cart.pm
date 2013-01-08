@@ -3,6 +3,7 @@ package Business::CPI::Cart;
 
 use Moo;
 use Business::CPI::Item;
+use Business::CPI::Types qw/stringified_money/;
 
 # VERSION
 
@@ -12,26 +13,22 @@ has buyer => (
 );
 
 has tax => (
-    coerce => sub { 0 + $_[0] },
+    coerce => \&stringified_money,
     required => 0,
     is => 'ro',
 );
 
 has handling => (
-    coerce => sub { 0 + $_[0] },
+    coerce => \&stringified_money,
     required => 0,
     is => 'ro',
 );
 
 has discount => (
-    coerce => sub { 0 + $_[0] },
+    coerce => \&stringified_money,
     required => 0,
     is => 'ro',
 );
-
-around tax      => \&_fix_float;
-around handling => \&_fix_float;
-around discount => \&_fix_float;
 
 has _gateway => (
     is => 'ro',
@@ -76,13 +73,6 @@ sub get_form_to_pay {
         buyer      => $self->buyer,
         cart       => $self,
     });
-}
-
-sub _fix_float {
-    my $orig = shift;
-    my $self = shift;
-
-    return sprintf( "%.2f", $self->$orig(@_) );
 }
 
 1;

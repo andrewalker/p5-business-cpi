@@ -1,6 +1,7 @@
 package Business::CPI::Item;
 # ABSTRACT: Product in the cart
 use Moo;
+use Business::CPI::Types qw/stringified_money/;
 
 # VERSION
 
@@ -10,7 +11,7 @@ has id => (
 );
 
 has price => (
-    coerce => sub { 0 + $_[0] },
+    coerce => \&stringified_money,
     is => 'ro',
 );
 
@@ -21,7 +22,13 @@ has weight => (
 );
 
 has shipping => (
-    coerce => sub { 0 + $_[0] },
+    coerce => \&stringified_money,
+    required => 0,
+    is => 'ro',
+);
+
+has shipping_additional => (
+    coerce => \&stringified_money,
     required => 0,
     is => 'ro',
 );
@@ -35,16 +42,6 @@ has quantity => (
     coerce => sub { int $_[0] },
     is => 'ro',
 );
-
-around price    => \&_fix_float;
-around shipping => \&_fix_float;
-
-sub _fix_float {
-    my $orig = shift;
-    my $self = shift;
-
-    return sprintf( "%.2f", $self->$orig(@_) );
-}
 
 1;
 

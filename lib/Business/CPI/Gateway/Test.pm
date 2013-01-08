@@ -68,6 +68,10 @@ sub get_hidden_inputs {
             push @hidden_inputs, ( "item${i}_shipping" => $ship );
         }
 
+        if (my $ship = $item->shipping_additional) {
+            push @hidden_inputs, ( "item${i}_shipping2" => $ship );
+        }
+
         $i++;
     }
 
