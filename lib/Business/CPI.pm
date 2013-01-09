@@ -3,7 +3,7 @@ package Business::CPI;
 
 use warnings;
 use strict;
-use Class::Load;
+use Class::Load ();
 
 # VERSION
 
