@@ -7,6 +7,7 @@ use Business::CPI::Cart;
 use Business::CPI::Buyer;
 use Business::CPI::EmptyLogger;
 use HTML::Element;
+use Data::Dumper;
 
 # VERSION
 
@@ -67,11 +68,17 @@ has form_encoding => (
 sub new_cart {
     my ( $self, $info ) = @_;
 
+    if ($self->log->is_debug) {
+        $self->log->debug("Building a cart with: " . Dumper($info));
+    }
+
     my @items =
       map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
       @{ delete $info->{items} || [] };
 
     my $buyer = Business::CPI::Buyer->new( delete $info->{buyer} );
+
+    $self->log->info("Built cart for buyer " . $buyer->email);
 
     return Business::CPI::Cart->new(
         _gateway => $self,
@@ -86,7 +93,15 @@ sub get_hidden_inputs { () }
 sub get_form {
     my ($self, $info) = @_;
 
+    $self->log->info("Get form for payment " . $info->{payment_id});
+
     my @hidden_inputs = $self->get_hidden_inputs($info);
+
+    if ($self->log->is_debug) {
+        $self->log->debug("Building form with inputs: " . Dumper(\@hidden_inputs));
+        $self->log->debug("form action => " . $self->checkout_url);
+        $self->log->debug("form method => " . $self->checkout_form_http_method);
+    }
 
     my $form = HTML::Element->new(
         'form',
