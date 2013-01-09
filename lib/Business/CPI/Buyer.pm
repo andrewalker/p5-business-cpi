@@ -1,4 +1,5 @@
 package Business::CPI::Buyer;
+# ABSTRACT: Information about the client
 use Moo;
 use Locale::Country ();
 use Email::Valid ();
