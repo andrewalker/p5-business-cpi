@@ -11,17 +11,6 @@ use HTML::Element;
 
 # VERSION
 
-has name => (
-    is      => 'ro',
-#    isa     => 'Str',
-    default => sub {
-        my $self  = shift;
-        my $class = ref $self;
-        my @parts = split '::', $class;
-        return lc( pop @parts );
-    },
-);
-
 has receiver_email => (
     isa => sub {
         Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
