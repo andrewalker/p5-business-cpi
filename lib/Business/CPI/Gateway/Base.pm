@@ -3,29 +3,38 @@ package Business::CPI::Gateway::Base;
 use Moo;
 use Locale::Currency ();
 use Email::Valid ();
-use List::Util ();
 use Business::CPI::Cart;
 use Business::CPI::Buyer;
+use Business::CPI::EmptyLogger;
 use HTML::Element;
 
 # VERSION
 
 has receiver_email => (
     isa => sub {
-        Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
+        die "Must be a valid e-mail address"
+            unless Email::Valid->address( $_[0] );
     },
     is => 'ro',
 );
 
 has currency => (
     isa => sub {
-        my $curr = uc( $_[0] );
-        my @codes = Locale::Currency::all_currency_codes();
-        List::Util::first { $curr eq uc($_) } @codes
-          || die "Must be a valid currency code";
+        my $curr = uc($_[0]);
+
+        for (Locale::Currency::all_currency_codes()) {
+            return 1 if $curr eq uc($_);
+        }
+
+        die "Must be a valid currency code";
     },
     coerce => sub { uc $_[0] },
     is => 'ro',
+);
+
+has log => (
+    is => 'ro',
+    default => sub { Business::CPI::EmptyLogger->new },
 );
 
 has checkout_url => (
