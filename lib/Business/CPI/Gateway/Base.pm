@@ -1,7 +1,6 @@
 package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
-use Carp;
 use Locale::Currency ();
 use Email::Valid ();
 use List::Util ();
