@@ -147,10 +147,6 @@ sub get_transaction_details {}
 
 __END__
 
-=attr name
-
-Name of the gateway (e.g. paypal).
-
 =attr receiver_email
 
 E-mail of the business owner.
@@ -158,6 +154,11 @@ E-mail of the business owner.
 =attr currency
 
 Currency code, such as BRL, EUR, USD, etc.
+
+=attr log
+
+Provide a logger to the gateway. It's the user's responsibility to configure
+the logger. By default, nothing is logged.
 
 =attr notification_url
 
