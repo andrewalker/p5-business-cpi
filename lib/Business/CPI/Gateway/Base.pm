@@ -143,6 +143,8 @@ sub query_transactions {}
 
 sub get_transaction_details {}
 
+sub notify {}
+
 1;
 
 __END__
@@ -216,3 +218,10 @@ This method is called when building the checkout form. It will return a hashref
 with the field names and field values for the form. This way the gateway will
 implement only this method, while the rest of the form will be built by this
 class.
+
+=method notify
+
+This is supposed to be called when the gateway sends a notification about a
+payment status change to the application. Receives the request as a parameter
+(in a CGI-compatible format), and returns data about the payment. The format is
+still under discussion, and is soon to be documented.
