@@ -4,8 +4,8 @@ use Moo;
 use Locale::Currency ();
 use Email::Valid ();
 use Business::CPI::Cart;
-use Business::CPI::Buyer;
 use Business::CPI::EmptyLogger;
+use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
 
@@ -76,7 +76,13 @@ sub new_cart {
       map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
       @{ delete $info->{items} || [] };
 
-    my $buyer = Business::CPI::Buyer->new( delete $info->{buyer} );
+    my $gateway_name = (split /::/, ref $self)[-1];
+    my $buyer_class  = Class::Load::load_first_existing_class(
+        "Business::CPI::Buyer::$gateway_name",
+        "Business::CPI::Buyer"
+    );
+
+    my $buyer = $buyer_class->new( delete $info->{buyer} );
 
     $self->log->info("Built cart for buyer " . $buyer->email);
 
