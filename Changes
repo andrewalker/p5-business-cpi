@@ -1,5 +1,8 @@
 Revision history for Perl module Business::CPI.
 
+{{$NEXT}}
+    - Create Changes file
+
 0.902 2013-01-30T02:33:54Z
     - Allow gateways to implement custom Cart classes
     - Explicitly require Class::Load 0.20 and Moo 1.0
@@ -8,24 +11,24 @@ Revision history for Perl module Business::CPI.
     - Allow gateways to implement custom Buyer classes
     - Document notify method
 
-0.5 2013-01-10T11:22:40Z
+0.5   2013-01-10T11:22:40Z
     - Implement logging
     - Remove List::Util dependency
     - Remove name attribute
 
-0.4 2013-01-09T00:30:41Z
+0.4   2013-01-09T00:30:41Z
     - Explicitly require Perl 5.8 or higher
     - Define version in Business::CPI::Types
 
-0.3 2013-01-08T17:50:43Z
+0.3   2013-01-08T17:50:43Z
     - Add several new attributes for:
         - Cart (discount, taxes, handling)
         - Buyer (address data)
         - Item (shipping data)
 
-0.2 2012-12-15T21:48:43Z
+0.2   2012-12-15T21:48:43Z
     - Set versioning in every file
     - Add sponsors in the docs
 
-0.1 2012-11-24T18:34:43Z
+0.1   2012-11-24T18:34:43Z
     - Initial version
