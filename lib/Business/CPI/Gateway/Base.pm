@@ -37,6 +37,11 @@ has log => (
     default => sub { Business::CPI::EmptyLogger->new },
 );
 
+has checkout_with_token => (
+    is => 'ro',
+    default => sub { 0 },
+);
+
 has checkout_url => (
     is => 'ro',
 );
@@ -101,7 +106,7 @@ sub new_cart {
     );
 }
 
-sub get_hidden_inputs { () }
+sub get_hidden_inputs { shift->_unimplemented }
 
 sub get_form {
     my ($self, $info) = @_;
@@ -150,13 +155,20 @@ sub get_form {
     return $form;
 }
 
-sub get_notification_details {}
+sub get_notification_details { shift->_unimplemented }
 
-sub query_transactions {}
+sub query_transactions { shift->_unimplemented }
 
-sub get_transaction_details {}
+sub get_transaction_details { shift->_unimplemented }
 
-sub notify {}
+sub notify { shift->_unimplemented }
+
+sub get_checkout_code { shift->_unimplemented }
+
+sub _unimplemented {
+    my $self = shift;
+    die "Not implemented.";
+}
 
 1;
 
@@ -182,6 +194,11 @@ The url for the gateway to postback, notifying payment changes.
 =attr return_url
 
 The url for the customer to return to, after they finished the payment.
+
+=attr checkout_with_token
+
+Boolean attribute to determine whether the form will hold the entire cart, or
+it will use the payment token generated for it. Defaults to false.
 
 =attr checkout_url
 
@@ -211,6 +228,11 @@ Creates a new L<Business::CPI::Cart> connected to this gateway.
 
 Get the form to checkout. Use the method in L<Business::CPI::Cart>, don't use
 this method directly.
+
+=method get_checkout_code
+
+Generates a payment token for a given cart. Do not call this method directly.
+Instead, see L<Business::CPI::Cart/get_checkout_code>.
 
 =method get_notification_details
 

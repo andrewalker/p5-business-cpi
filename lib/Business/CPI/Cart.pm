@@ -31,14 +31,22 @@ has discount => (
 );
 
 has _gateway => (
-    is => 'ro',
-    isa => sub { $_[0]->isa('Business::CPI::Gateway::Base') or die "Must be a CPI::Gateway::Base" },
+    is  => 'ro',
+    isa => sub {
+        $_[0]->isa('Business::CPI::Gateway::Base')
+          or die "Must be a Business::CPI::Gateway::Base";
+    },
 );
 
 has _items => (
     is => 'ro',
     #isa => 'ArrayRef[Business::CPI::Item]',
     default => sub { [] },
+);
+
+has checkout_code => (
+    is => 'lazy',
+    reader => 'get_checkout_code',
 );
 
 sub get_item {
@@ -75,6 +83,18 @@ sub get_form_to_pay {
     });
 }
 
+
+sub _build_checkout_code {
+    my ($self, $payment) = @_;
+
+    return $self->_gateway->get_checkout_code({
+        payment_id => $payment,
+        items      => [ @{ $self->_items } ],
+        buyer      => $self->buyer,
+        cart       => $self,
+    });
+}
+
 1;
 
 __END__
@@ -100,6 +120,11 @@ Tax to be applied to the total amount. Positive number.
 
 Handling to be applied to the total amount. Positive number.
 
+=attr checkout_code
+
+Gateway generated token which univocally identifies the payment to be made
+concerning this cart.
+
 =method add_item
 
 Create a new Business::CPI::Item object with the given hashref, and add it to
@@ -113,3 +138,9 @@ Get item with the given id.
 
 Takes a payment_id as the only argument, and returns an HTML::Element form, to
 submit to the gateway.
+
+=method get_checkout_code
+
+Very similar to get_form_to_pay, C<< $cart->get_checkout_code >> will send to
+the gateway this cart, and return a token for it, so that the payment will be
+made referring to this token.
