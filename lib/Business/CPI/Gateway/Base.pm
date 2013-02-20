@@ -61,13 +61,16 @@ has checkout_form_submit_value => (
     default => sub { '' },
 );
 
+has checkout_form_submit_image => (
+    is => 'ro',
+    default => sub { '' },
+);
+
 has form_encoding => (
     is      => 'ro',
     # TODO: use Encode::find_encoding()
     default => sub { 'UTF-8' },
 );
-
-# TODO: submit image
 
 sub new_cart {
     my ( $self, $info ) = @_;
@@ -191,18 +194,22 @@ sub get_form {
         );
     }
 
-    my @value = ();
+    my %submit = (
+        name  => $self->checkout_form_submit_name,
+        type  => 'submit',
+    );
+
     if (my $value = $self->checkout_form_submit_value) {
-        @value = (value => $value);
+        $submit{value} = $value;
+    }
+
+    if (my $src = $self->checkout_form_submit_image) {
+        $submit{src}  = $src;
+        $submit{type} = 'image';
     }
 
     $form->push_content(
-        HTML::Element->new(
-            'input',
-            type  => 'submit',
-            name  => $self->checkout_form_submit_name,
-            @value
-        )
+        HTML::Element->new( 'input', %submit )
     );
 
     return $form;
@@ -268,6 +275,12 @@ Defaults to submit.
 =attr checkout_form_submit_value
 
 Defaults to ''.
+
+=attr checkout_form_submit_image
+
+If set, makes the submit button become an image. Set this to the URL of the
+image you want to display in the checkout button. Defaults to '' (i.e., no
+image, default brower submit button).
 
 =attr form_encoding
 
