@@ -106,6 +106,59 @@ sub new_cart {
     );
 }
 
+sub map_object {
+    my ($self, $map, $obj) = @_;
+
+    my @result;
+
+    while (my ($bcpi_key, $gtw_key) = each %$map) {
+        my $value = $obj->$bcpi_key;
+        next unless $value;
+
+        my $name = $gtw_key;
+
+        if (ref $gtw_key) {
+            $name  = $gtw_key->{name};
+            $value = $gtw_key->{coerce}->($name);
+        }
+
+        push @result, ( $name, $value );
+    }
+
+    return @result;
+}
+
+sub _get_hidden_inputs_for_cart {
+    my ($self, $cart) = @_;
+
+    return $self->map_object( $self->_checkout_form_cart_map, $cart );
+}
+
+sub _get_hidden_inputs_for_buyer {
+    my ($self, $buyer) = @_;
+
+    return $self->map_object( $self->_checkout_form_buyer_map, $buyer );
+}
+
+sub _get_hidden_inputs_for_items {
+    my ($self, $items) = @_;
+    my @result;
+    my $i = 1;
+
+    for my $item (@$items) {
+        push @result,
+          $self->map_object( $self->_checkout_form_item_map( $i++ ), $item );
+    }
+
+    return @result;
+}
+
+sub _get_hidden_inputs_main {
+    my $self = shift;
+
+    return $self->map_object( $self->_checkout_form_main_map, $self );
+}
+
 sub get_hidden_inputs { shift->_unimplemented }
 
 sub get_form {
@@ -260,3 +313,9 @@ This is supposed to be called when the gateway sends a notification about a
 payment status change to the application. Receives the request as a parameter
 (in a CGI-compatible format), and returns data about the payment. The format is
 still under discussion, and is soon to be documented.
+
+=method map_object
+
+Helper method for get_hidden_inputs to translate between Business::CPI and the
+gateway, using methods like checkout_form_items_map, checkout_form_buyer_map,
+etc.
