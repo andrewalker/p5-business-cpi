@@ -46,11 +46,6 @@ has _items => (
     default => sub { [] },
 );
 
-has checkout_code => (
-    is => 'lazy',
-    reader => 'get_checkout_code',
-);
-
 sub get_item {
     my ($self, $item_id) = @_;
 
@@ -95,7 +90,7 @@ sub get_form_to_pay {
 }
 
 
-sub _build_checkout_code {
+sub get_checkout_code {
     my ($self, $payment) = @_;
 
     return $self->_gateway->get_checkout_code({
@@ -130,11 +125,6 @@ Tax to be applied to the total amount. Positive number.
 =attr handling
 
 Handling to be applied to the total amount. Positive number.
-
-=attr checkout_code
-
-Gateway generated token which univocally identifies the payment to be made
-concerning this cart.
 
 =method add_item
 
