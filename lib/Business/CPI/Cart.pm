@@ -143,4 +143,5 @@ submit to the gateway.
 
 Very similar to get_form_to_pay, C<< $cart->get_checkout_code >> will send to
 the gateway this cart, and return a token for it, so that the payment will be
-made referring to this token.
+made referring to this token. It receives the same arguments as
+get_form_to_pay.
