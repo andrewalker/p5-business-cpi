@@ -4,6 +4,7 @@ package Business::CPI::Cart;
 use Moo;
 use Business::CPI::Item;
 use Business::CPI::Types qw/stringified_money/;
+use Class::Load qw/load_first_existing_class/;
 
 # VERSION
 
@@ -65,7 +66,13 @@ sub get_item {
 sub add_item {
     my ($self, $info) = @_;
 
-    my $item = ref $info && ref $info eq 'Business::CPI::Item' ? $info : Business::CPI::Item->new($info);
+    my $gateway_name = (split /::/, ref $self->_gateway)[-1];
+    my $item_class  = Class::Load::load_first_existing_class(
+        "Business::CPI::Item::$gateway_name",
+        "Business::CPI::Item"
+    );
+
+    my $item = ref $info && $info->isa('Business::CPI::Item') ? $info : $item_class->new($info);
 
     push @{ $self->_items }, $item;
 
