@@ -40,7 +40,7 @@ has checkout_with_token => (
 );
 
 has checkout_url => (
-    is => 'ro',
+    is => 'rw',
 );
 
 has checkout_form_http_method => (
