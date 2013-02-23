@@ -3,6 +3,7 @@ package Business::CPI::Cart;
 
 use Moo;
 use Business::CPI::Item;
+use Scalar::Util qw/blessed/;
 use Business::CPI::Types qw/stringified_money/;
 use Class::Load qw/load_first_existing_class/;
 
@@ -72,7 +73,10 @@ sub add_item {
         "Business::CPI::Item"
     );
 
-    my $item = ref $info && $info->isa('Business::CPI::Item') ? $info : $item_class->new($info);
+    my $item =
+         ref $info
+      && blessed $info
+      && $info->isa('Business::CPI::Item') ? $info : $item_class->new($info);
 
     push @{ $self->_items }, $item;
 
