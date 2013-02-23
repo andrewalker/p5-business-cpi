@@ -82,7 +82,7 @@ object can handle as many carts as desired.
         quantity    => 2,
     });
 
-    my $form = $cart->get_form; # HTML::Element form
+    my $form = $cart->get_form_to_pay( $id ); # HTML::Element form
 
 In your template, you could have, for instance:
 
