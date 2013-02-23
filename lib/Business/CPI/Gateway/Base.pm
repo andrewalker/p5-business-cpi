@@ -2,7 +2,6 @@ package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
 use Locale::Currency ();
-use Email::Valid ();
 use Business::CPI::EmptyLogger;
 use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
@@ -11,12 +10,10 @@ use Data::Dumper;
 # VERSION
 
 has receiver_email => (
-    isa => sub {
-        die "Must be a valid e-mail address"
-            unless Email::Valid->address( $_[0] );
-    },
     is => 'ro',
 );
+
+sub receiver_id { goto \&receiver_email }
 
 has currency => (
     isa => sub {
