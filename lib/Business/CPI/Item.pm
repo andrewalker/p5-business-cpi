@@ -8,11 +8,13 @@ use Business::CPI::Types qw/stringified_money/;
 has id => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
+    required => 1,
 );
 
 has price => (
     coerce => \&stringified_money,
     is => 'ro',
+    required => 1,
 );
 
 has weight => (
@@ -36,11 +38,13 @@ has shipping_additional => (
 has description => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
+    required => 1,
 );
 
 has quantity => (
     coerce => sub { int $_[0] },
     is => 'ro',
+    required => 1,
 );
 
 1;
