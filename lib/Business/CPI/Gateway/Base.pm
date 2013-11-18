@@ -231,9 +231,17 @@ sub _unimplemented {
 
 __END__
 
+=attr receiver_id
+
+ID, login or e-mail of the business owner. The way the gateway uniquely
+identifies the account owner.
+
 =attr receiver_email
 
-E-mail of the business owner.
+E-mail of the business owner. Currently, this an alias for receiver_id, for
+backcompatibility. The attribute is called C<receiver_email> only because some
+gateways set the account identification as the user's e-mail, but that's not
+always the case.
 
 =attr currency
 
