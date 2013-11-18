@@ -81,6 +81,14 @@ sub _build_address_line2 {
 
 __END__
 
+=head1 NOTE
+
+This class will soon be ported to use L<Business::CPI::Account>, either
+becoming a role, or extending it via inheritance. So beware of
+backcompatibility issues. In particular, all attributes prefixed with
+C<address_*> will lose the prefix and be set using the
+L<Business::CPI::Account::Address> class.
+
 =head1 DESCRIPTION
 
 This class holds information about the buyer in a shopping cart. The address
