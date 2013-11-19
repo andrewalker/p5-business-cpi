@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+
+0.904 2013-11-18T19:45:02Z
     - Create Account classes
     - Add Test::Exception and DateTime dependencies
     - Improve documentation
