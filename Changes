@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+
+0.905 2013-11-19T03:42:55Z
     - Fix and improve tests
     - Remove Business::BR::CNPJ from Business::CPI::Account::Business. It was
       left there by mistake
