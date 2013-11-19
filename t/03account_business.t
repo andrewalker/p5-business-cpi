@@ -21,7 +21,7 @@ my $class = 'Business::CPI::Account::Business';
 
 # Test building the object
 {
-    my $obj;
+    my ($obj, $addr);
     my %data = (
         _gateway       => Business::CPI::Gateway::Test->new,
         corporate_name => 'Aware Ltda.',
@@ -51,6 +51,25 @@ my $class = 'Business::CPI::Account::Business';
 
     isa_ok($obj->address, 'Business::CPI::Account::Address');
     is($obj->address->number, '321', 'address seems to be the one we provided');
+
+    $data{address}{number} = '555';
+    $data{address}{district} = 'Bairro Z';
+
+    lives_ok {
+        $addr = $obj->address($data{address});
+    } 'Object is built ok';
+
+    isa_ok($addr, 'Business::CPI::Account::Address');
+    is($addr, $obj->address, 'the object is the same');
+
+    for (keys %{ $data{address} }) {
+        is($addr->$_, $data{address}{$_}, $_ . ' is set ok');
+    }
+
+    delete $data{_gateway};
+    throws_ok {
+        $class->new(%data);
+    } qr/missing.*_gateway/i, 'die unless _gateway is defined';
 }
 
 done_testing();

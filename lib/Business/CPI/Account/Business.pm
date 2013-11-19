@@ -6,7 +6,7 @@ use Class::Load ();
 
 # VERSION
 
-has _gateway       => ( is => 'rw' );
+has _gateway => ( is => 'ro', required => 1 );
 
 has corporate_name => ( is => 'rw' );
 has trading_name   => ( is => 'rw' );
@@ -19,7 +19,7 @@ around address => sub {
     my $self = shift;
 
     if (my $new_address = shift) {
-        return $self->$orig( $self->_inflate_addr($new_address) );
+        return $self->$orig( $self->_inflate_address($new_address) );
     }
 
     return $self->$orig();
@@ -29,6 +29,8 @@ around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
     my $args  = $class->$orig(@_);
+
+    return $args if !$args->{_gateway};
 
     if (exists $args->{address}) {
         $args->{address} = $class->_inflate_address($args->{address}, $args->{_gateway});
@@ -40,13 +42,7 @@ around BUILDARGS => sub {
 sub _inflate_address {
     my ($self, $addr, $gateway) = @_;
 
-    if (!$gateway && ref $self) {
-        $gateway = $self->_gateway;
-    }
-    elsif (!$gateway) {
-        Class::Load::load_class( "Business::CPI::Account::Address" );
-        return Business::CPI::Account::Address->new($addr);
-    }
+    $gateway ||= $self->_gateway;
 
     my $gateway_name = (split /::/, ref $gateway)[-1];
     my $address_class = Class::Load::load_first_existing_class(

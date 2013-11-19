@@ -9,7 +9,7 @@ use Class::Load ();
 
 # VERSION
 
-has _gateway => ( is => 'rw' );
+has _gateway => ( is => 'ro', required => 1 );
 
 has id => ( is => 'rw' );
 
@@ -69,6 +69,8 @@ around BUILDARGS => sub {
     my $class = shift;
     my $args  = $class->$orig(@_);
 
+    return $args if !$args->{_gateway}; # let it die elsewhere
+
     if (exists $args->{business}) {
         $args->{business} = $class->_inflate_business($args->{business}, $args->{_gateway});
     }
@@ -85,13 +87,7 @@ sub _inflate_comp {
 
     my $default_class = "Business::CPI::Account::$which";
 
-    if (!$gateway && ref $self) {
-        $gateway = $self->_gateway;
-    }
-    elsif ( !$gateway ) {
-        Class::Load::load_class($default_class);
-        return $default_class->new($comp);
-    }
+    $gateway ||= $self->_gateway;
 
     my $gateway_name = (split /::/, ref $gateway)[-1];
     my $comp_class = Class::Load::load_first_existing_class(
