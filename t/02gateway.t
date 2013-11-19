@@ -22,6 +22,27 @@ if ($@) {
 
 isa_ok($cpi, 'Business::CPI::Gateway::Test');
 
+$cpi = eval {
+    Business::CPI->new({
+        gateway      => 'Test',
+        receiver_id  => 'receiver@andrewalker.net',
+        currency     => 'BRL',
+        checkout_url => '',
+    });
+};
+
+ok($cpi, 'the object was is defined');
+ok(!$@, 'no error');
+
+if ($@) {
+    diag $@;
+}
+
+isa_ok($cpi, 'Business::CPI::Gateway::Test');
+
+is($cpi->receiver_id, $cpi->receiver_email, 'receiver_id equals receiver_email');
+is($cpi->receiver_id, 'receiver@andrewalker.net', 'and both of them are correct');
+
 my $cart = $cpi->new_cart({
     buyer => {
         email => 'buyer@andrewalker.net',

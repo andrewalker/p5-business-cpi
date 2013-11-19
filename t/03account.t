@@ -24,14 +24,15 @@ my $class = 'Business::CPI::Account';
 
 # Test wrong instantiation
 {
+    my $gtw = Business::CPI::Gateway::Test->new;
     my $obj;
-    throws_ok { $obj = $class->new( birthday => 'bogus' ) } qr{DateTime}, 'attempting to set a string to birthday attribute';
+    throws_ok { $obj = $class->new( birthday => 'bogus', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string to birthday attribute';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( birthday => '01/01/2000' ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute';
+    throws_ok { $obj = $class->new( birthday => '01/01/2000', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( birthday => '2000-01-01' ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute (again)';
+    throws_ok { $obj = $class->new( birthday => '2000-01-01', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute (again)';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( email => 'a@@b' ) } qr{e-mail}, 'attempting to set an invalid email';
+    throws_ok { $obj = $class->new( email => 'a@@b', _gateway => $gtw ) } qr{e-mail}, 'attempting to set an invalid email';
     ok(!$obj, 'object is undefined');
 }
 

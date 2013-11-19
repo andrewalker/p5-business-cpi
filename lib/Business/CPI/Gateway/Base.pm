@@ -69,6 +69,16 @@ has form_encoding => (
     default => sub { 'UTF-8' },
 );
 
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+    my $args  = $class->$orig(@_);
+
+    $args->{receiver_email} = $args->{receiver_id} if $args->{receiver_id};
+
+    return $args;
+};
+
 sub new_cart {
     my ( $self, $info ) = @_;
 
@@ -290,6 +300,10 @@ image, default brower submit button).
 =attr form_encoding
 
 Defaults to UTF-8.
+
+=method BUILDARGS
+
+Simply makes the receiver_id alias work.
 
 =method new_cart
 
