@@ -43,6 +43,17 @@ isa_ok($cpi, 'Business::CPI::Gateway::Test');
 is($cpi->receiver_id, $cpi->receiver_email, 'receiver_id equals receiver_email');
 is($cpi->receiver_id, 'receiver@andrewalker.net', 'and both of them are correct');
 
+# XXX: maybe we should just die?
+is(
+    $cpi->new_cart({
+        buyer => {
+            email => 'buyer@andrewalker.net',
+            name  => 'Mr. Buyer',
+        },
+        tax => 'abc',
+    })->tax, '0.00', 'weird numbers are zeroed'
+);
+
 my $cart = $cpi->new_cart({
     buyer => {
         email => 'buyer@andrewalker.net',

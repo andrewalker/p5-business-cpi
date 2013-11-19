@@ -3,12 +3,16 @@ package Business::CPI::Types;
 use warnings;
 use strict;
 use Exporter 'import';
+use Scalar::Util qw/looks_like_number/;
 
 # VERSION
 
 our @EXPORT_OK = qw/stringified_money/;
 
-sub stringified_money { $_[0] ? sprintf( "%.2f", 0 + $_[0] ) : $_[0] }
+sub stringified_money {
+    my $r = looks_like_number($_[0]) ? $_[0] : 0;
+    return sprintf( "%.2f", 0+$r);
+}
 
 1;
 

@@ -5,36 +5,35 @@ use Moo;
 use Business::CPI::Item;
 use Scalar::Util qw/blessed/;
 use Business::CPI::Types qw/stringified_money/;
-use Class::Load qw/load_first_existing_class/;
+use Class::Load ();
 
 # VERSION
 
 has buyer => (
     is => 'ro',
     isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
+    required => 1,
 );
 
 has tax => (
     coerce => \&stringified_money,
-    required => 0,
-    is => 'ro',
+    is     => 'ro',
 );
 
 has handling => (
     coerce => \&stringified_money,
-    required => 0,
-    is => 'ro',
+    is     => 'ro',
 );
 
 has discount => (
     coerce => \&stringified_money,
-    required => 0,
-    is => 'ro',
+    is     => 'ro',
 );
 
 has _gateway => (
-    is  => 'ro',
-    isa => sub {
+    is       => 'ro',
+    required => 1,
+    isa      => sub {
         $_[0]->isa('Business::CPI::Gateway::Base')
           or die "Must be a Business::CPI::Gateway::Base";
     },
