@@ -2,7 +2,6 @@ package Business::CPI::Account::Business;
 # ABSTRACT: Business::CPI representation of corporations
 use Moo;
 use utf8;
-use Business::BR::CNPJ ();
 use Class::Load ();
 
 # VERSION
