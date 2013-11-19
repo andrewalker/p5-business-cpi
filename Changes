@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Create new attributes in Account class: login, registration_date,
+      full_name, gateway_id, is_business_account.
 
 0.905 2013-11-19T03:42:55Z
     - Fix and improve tests

@@ -8,7 +8,11 @@ use Test::More;
 use Test::Exception;
 use DateTime;
 
-my @attrs = qw/id first_name last_name email birthday phone address business return_url/;
+my @attrs = qw(
+      id gateway_id full_name first_name last_name
+      login email birthday registration_date phone
+      is_business_account address business return_url
+);
 my $class = 'Business::CPI::Account';
 
 # Test class meta
@@ -32,6 +36,12 @@ my $class = 'Business::CPI::Account';
     ok(!$obj, 'object is undefined');
     throws_ok { $obj = $class->new( birthday => '2000-01-01', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute (again)';
     ok(!$obj, 'object is undefined');
+    throws_ok { $obj = $class->new( registration_date => 'bogus', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string to registration_date attribute';
+    ok(!$obj, 'object is undefined');
+    throws_ok { $obj = $class->new( registration_date => '01/01/2000', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to registration_date attribute';
+    ok(!$obj, 'object is undefined');
+    throws_ok { $obj = $class->new( registration_date => '2000-01-01', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to registration_date attribute (again)';
+    ok(!$obj, 'object is undefined');
     throws_ok { $obj = $class->new( email => 'a@@b', _gateway => $gtw ) } qr{e-mail}, 'attempting to set an invalid email';
     ok(!$obj, 'object is undefined');
 }
@@ -41,13 +51,14 @@ my $class = 'Business::CPI::Account';
     my $obj;
     lives_ok {
         $obj = $class->new(
-            id         => 'app0id014213',
-            first_name => 'John',
-            last_name  => 'Smith',
-            email      => 'john@smith.com',
-            birthday   => DateTime->now->subtract(years => 25),
-            phone      => '11 00001111',
-            address    => {
+            id                => 'app0id014213',
+            first_name        => 'John',
+            last_name         => 'Smith',
+            email             => 'john@smith.com',
+            birthday          => DateTime->now->subtract(years => 25),
+            registration_date => DateTime->now,
+            phone             => '11 00001111',
+            address           => {
                 street     => 'Av. Paulista',
                 number     => '123',
                 complement => '7º andar',
@@ -77,6 +88,7 @@ my $class = 'Business::CPI::Account';
 
     isa_ok($obj, $class);
     is($obj->return_url, 'http://mrsmith.com', 'return url is correct');
+    is($obj->full_name, 'John Smith', 'name is correct');
     isa_ok($obj->birthday, 'DateTime');
     isa_ok($obj->business, 'Business::CPI::Account::Business');
     isa_ok($obj->address, 'Business::CPI::Account::Address');
