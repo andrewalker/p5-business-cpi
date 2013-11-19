@@ -1,6 +1,10 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Fix and improve tests
+    - Remove Business::BR::CNPJ from Business::CPI::Account::Business. It was
+      left there by mistake
+    - Set _gateway attribute as 'ro' and required in a few classes
 
 0.904 2013-11-18T19:45:02Z
     - Create Account classes
