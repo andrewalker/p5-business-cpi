@@ -8,10 +8,4 @@ perl:
     - "5.10"
     - "5.8"
 
-before_install:
-    - cpanm -n Dist::Zilla
-    - dzil authordeps --missing | cpanm -n
-
-install: dzil listdeps --missing | cpanm -n
-
-script: dzil test --all
+script: prove -rl t
