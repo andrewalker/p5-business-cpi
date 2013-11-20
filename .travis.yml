@@ -10,8 +10,8 @@ perl:
 
 before_install:
     - cpanm -n Dist::Zilla
-    - dzil authordeps | cpanm
+    - dzil authordeps --missing | cpanm -n
 
-install: dzil listdeps | cpanm
+install: dzil listdeps --missing | cpanm -n
 
-script: dzil test && dzil xtest
+script: dzil test --all

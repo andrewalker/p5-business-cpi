@@ -1,5 +1,15 @@
 =encoding utf-8
 
+=begin html
+
+<p>
+  <a href="https://api.travis-ci.org/andrewalker/p5-business-cpi">
+    <img src="https://api.travis-ci.org/andrewalker/p5-business-cpi.png?branch=master" alt="Travis CI build status">
+  </a>
+</p>
+
+=end html
+
 =head1 NAME
 
 Business::CPI - Common Payment Interface
