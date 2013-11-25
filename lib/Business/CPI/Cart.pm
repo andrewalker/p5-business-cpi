@@ -9,6 +9,9 @@ use Class::Load ();
 
 # VERSION
 
+has id => ( is => 'rw' );
+has gateway_id => ( is => 'rw' );
+
 has buyer => (
     is => 'ro',
     isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
@@ -108,6 +111,14 @@ __END__
 
 Cart class for holding products to be purchased. Don't instantiate this
 directly, use L<Business::CPI::Gateway::Base/new_cart> to build it.
+
+=attr id
+
+The id of the cart, if your application has one set for it.
+
+=attr gateway_id
+
+The id your gateway has set for this cart, if there is one.
 
 =attr buyer
 
