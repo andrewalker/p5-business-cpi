@@ -1,6 +1,7 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Rename birthday to birthdate
 
 0.906 2013-11-20T00:46:15Z
     - Create new attributes in Account class: login, registration_date,
