@@ -36,7 +36,7 @@ has email => (
     }
 );
 
-has birthday => (
+has birthdate => (
     is => 'rw',
     isa => sub {
         die "Must be a DateTime object"
@@ -149,7 +149,7 @@ sub _inflate_business {
         first_name => $row->name,
         last_name  => $row->surname,
         email      => $row->email,
-        birthday   => $row->birthday,
+        birthdate  => $row->birthdate,
         phone      => $row->phone,
         return_url => $myapp->root_url . '/gateway_account_created',
     });
@@ -160,7 +160,7 @@ sub _inflate_business {
         first_name => 'John',
         last_name  => 'Smith',
         email      => 'john@smith.com',
-        birthday   => DateTime->now->subtract(years => 25),
+        birthdate  => DateTime->now->subtract(years => 25),
         phone      => '11 00001111',
         address    => {
             street     => 'Av. Paulista',
@@ -236,7 +236,7 @@ E-mail address of the individual.
 
 Phone number of the individual.
 
-=attr birthday
+=attr birthdate
 
 The date the person was born. Must be a DateTime object.
 
