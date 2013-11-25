@@ -20,17 +20,17 @@ has buyer => (
 
 has tax => (
     coerce => \&stringified_money,
-    is     => 'ro',
+    is     => 'rw',
 );
 
 has handling => (
     coerce => \&stringified_money,
-    is     => 'ro',
+    is     => 'rw',
 );
 
 has discount => (
     coerce => \&stringified_money,
-    is     => 'ro',
+    is     => 'rw',
 );
 
 has _gateway => (
