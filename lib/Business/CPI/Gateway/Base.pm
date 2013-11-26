@@ -77,6 +77,10 @@ has _cart_class => (
     is => 'lazy',
 );
 
+has _account_class => (
+    is => 'lazy',
+);
+
 sub _build__buyer_class {
     my $self = shift;
     my $gateway_name = (split /::/, ref $self)[-1];
@@ -95,6 +99,16 @@ sub _build__cart_class {
     );
 }
 
+sub _build__account_class {
+    my $self = shift;
+
+    my $gateway_name = (split /::/, ref $self)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Account::$gateway_name",
+        "Business::CPI::Account"
+    );
+}
+
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
@@ -104,6 +118,15 @@ around BUILDARGS => sub {
 
     return $args;
 };
+
+sub new_account {
+    my ($self, $account) = @_;
+
+    return $self->_account_class->new(
+        _gateway => $self,
+        %$account
+    );
+}
 
 sub new_cart {
     my ( $self, $info ) = @_;
