@@ -6,6 +6,7 @@ use DateTime;
 use Email::Valid;
 use Scalar::Util qw/blessed/;
 use Class::Load ();
+use Business::CPI::Types qw/is_valid_phone_number phone_number/;
 
 # VERSION
 
@@ -24,7 +25,15 @@ has full_name  => ( is => 'lazy' );
 has first_name => ( is => 'rw' );
 has last_name  => ( is => 'rw' );
 
-has phone => ( is => 'rw' );
+has phone => (
+    is  => 'rw',
+    isa => sub {
+        die "Must be in a valid phone number, "
+          . "see Business::CPI::Account docs for details"
+          unless is_valid_phone_number( $_[0] );
+    },
+    coerce => \&phone_number
+);
 
 has login => ( is => 'rw' );
 
@@ -234,7 +243,12 @@ E-mail address of the individual.
 
 =attr phone
 
-Phone number of the individual.
+Phone number of the individual. You can use + sign to set the country code, and
+you can set the area code if you want. You may use non-alphanumerical
+characters, such as parenthesis or spaces, but they will be removed. You cannot
+use letters.
+
+Examples of valid numbers: "+55 11 98123-4567", "11 98123-4567", "98123-4567".
 
 =attr birthdate
 
