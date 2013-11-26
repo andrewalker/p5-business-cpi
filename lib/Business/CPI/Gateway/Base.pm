@@ -86,9 +86,7 @@ sub new_cart {
         $self->log->debug("Building a cart with: " . Dumper($info));
     }
 
-    my @items =
-      map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
-      @{ delete $info->{items} || [] };
+    my @items = @{ delete $info->{items} || [] };
 
     my $gateway_name = (split /::/, ref $self)[-1];
     my $buyer_class  = Class::Load::load_first_existing_class(
@@ -108,12 +106,17 @@ sub new_cart {
 
     $self->log->info("Built cart for buyer " . $buyer->email);
 
-    return $cart_class->new(
+    my $cart = $cart_class->new(
         _gateway => $self,
-        _items   => \@items,
         buyer    => $buyer,
         %$info,
     );
+
+    for (@items) {
+        $cart->add_item($_);
+    }
+
+    return $cart;
 }
 
 sub map_object {
