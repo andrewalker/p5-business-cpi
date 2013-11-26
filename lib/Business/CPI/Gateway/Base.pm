@@ -354,6 +354,12 @@ Simply makes the receiver_id alias work.
 
 Creates a new L<Business::CPI::Cart> connected to this gateway.
 
+=method new_account
+
+Creates a new instance of an account. In general, you shouldn't need to use
+this, except for testing. Use C<create_account>, instead, if your driver
+provides it.
+
 =method get_form
 
 Get the form to checkout. Use the method in L<Business::CPI::Cart>, don't use
