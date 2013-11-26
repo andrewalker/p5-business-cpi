@@ -69,6 +69,32 @@ has form_encoding => (
     default => sub { 'UTF-8' },
 );
 
+has _buyer_class => (
+    is => 'lazy',
+);
+
+has _cart_class => (
+    is => 'lazy',
+);
+
+sub _build__buyer_class {
+    my $self = shift;
+    my $gateway_name = (split /::/, ref $self)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Buyer::$gateway_name",
+        "Business::CPI::Buyer"
+    );
+}
+
+sub _build__cart_class {
+    my $self = shift;
+    my $gateway_name = (split /::/, ref $self)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Cart::$gateway_name",
+        "Business::CPI::Cart"
+    );
+}
+
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
@@ -88,15 +114,8 @@ sub new_cart {
 
     my @items = @{ delete $info->{items} || [] };
 
-    my $gateway_name = (split /::/, ref $self)[-1];
-    my $buyer_class  = Class::Load::load_first_existing_class(
-        "Business::CPI::Buyer::$gateway_name",
-        "Business::CPI::Buyer"
-    );
-    my $cart_class  = Class::Load::load_first_existing_class(
-        "Business::CPI::Cart::$gateway_name",
-        "Business::CPI::Cart"
-    );
+    my $buyer_class = $self->_buyer_class;
+    my $cart_class  = $self->_cart_class;
 
     $self->log->debug(
         "Loaded buyer class $buyer_class and cart class $cart_class."
