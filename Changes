@@ -7,6 +7,7 @@ Revision history for Perl module Business::CPI.
       simple hashrefs (not blessed)
     - Be stricter about phone numbers
     - Make description and quantity optional
+    - Create helper method `new_account` to build Account objects
 
 0.907 2013-11-25T17:13:12Z
     - Rename birthday to birthdate
