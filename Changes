@@ -6,6 +6,7 @@ Revision history for Perl module Business::CPI.
     - General optimizations while adding items to the cart, and allow only
       simple hashrefs (not blessed)
     - Be stricter about phone numbers
+    - Make description and quantity optional
 
 0.907 2013-11-25T17:13:12Z
     - Rename birthday to birthdate

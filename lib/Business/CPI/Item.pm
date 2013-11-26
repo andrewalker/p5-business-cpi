@@ -19,32 +19,28 @@ has price => (
 
 has weight => (
     coerce => sub { 0 + $_[0] },
-    required => 0,
     is => 'ro',
 );
 
 has shipping => (
     coerce => \&stringified_money,
-    required => 0,
     is => 'ro',
 );
 
 has shipping_additional => (
     coerce => \&stringified_money,
-    required => 0,
     is => 'ro',
 );
 
 has description => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
-    required => 1,
 );
 
 has quantity => (
     coerce => sub { int $_[0] },
     is => 'ro',
-    required => 1,
+    default => sub { 1 },
 );
 
 1;
@@ -59,11 +55,20 @@ This class holds information about the products in a shopping cart.
 
 B<MANDATORY> - Unique identifier for this product in your application.
 
+=attr description
+
+A longer description of the product, or just the name, if the gateway doesn't
+differentiate between name and description.
+
 =attr price
 
 B<MANDATORY> - The price (in the chosen currency; see
 L<Business::CPI::Gateway::Base/currency>) of one item. This will be multiplied
 by the quantity.
+
+=attr quantity
+
+How many of this product is being bought? Defaults to 1.
 
 =attr shipping
 
@@ -82,11 +87,3 @@ shipping2.
 
 The weight of this item. If you define the L</shipping>, this will probably be
 ignored by the gateway.
-
-=attr description
-
-B<MANDATORY> - The description or name of the product.
-
-=attr quantity
-
-B<MANDATORY> - How many of this product is being bought?
