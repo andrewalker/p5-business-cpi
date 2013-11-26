@@ -1,7 +1,11 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
-    - Add id and gateway_id attributes for the cart.
+    - Add id and gateway_id attributes for the cart, and make some of the other
+      attributes rw
+    - General optimizations while adding items to the cart, and allow only
+      simple hashrefs (not blessed)
+    - Be stricter about phone numbers
 
 0.907 2013-11-25T17:13:12Z
     - Rename birthday to birthdate
