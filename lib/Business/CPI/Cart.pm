@@ -14,7 +14,10 @@ has gateway_id => ( is => 'rw' );
 
 has buyer => (
     is => 'ro',
-    isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
+    isa => sub {
+        $_[0]->isa('Business::CPI::Buyer') or $_[0]->isa('Business::CPI::Account')
+          or die "Must be a Business::CPI::Buyer or Business::CPI::Account";
+    },
     required => 1,
 );
 
