@@ -345,10 +345,6 @@ image, default brower submit button).
 
 Defaults to UTF-8.
 
-=method BUILDARGS
-
-Simply makes the receiver_id alias work.
-
 =method new_cart
 
 Creates a new L<Business::CPI::Role::Cart> connected to this gateway.
@@ -401,3 +397,5 @@ still under discussion, and is soon to be documented.
 Helper method for get_hidden_inputs to translate between Business::CPI and the
 gateway, using methods like checkout_form_items_map, checkout_form_buyer_map,
 etc.
+
+=for Pod::Coverage BUILDARGS

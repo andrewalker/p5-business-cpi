@@ -94,10 +94,6 @@ HashRef with the attributes, according to the
 L<< Address | Business::CPI::Role::Account::Address >>
 role, and it will be inflated for you.
 
-=method BUILDARGS
-
-Used to inflate C<address> key in the constructor.
-
 =head1 SPONSORED BY
 
 Estante Virtual - L<http://www.estantevirtual.com.br>

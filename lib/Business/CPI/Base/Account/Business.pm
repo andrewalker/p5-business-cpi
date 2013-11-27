@@ -18,3 +18,5 @@ L<< Account::Business | Business::CPI::Role::Account::Business >>.
 =head1 SEE ALSO
 
 L<Business::CPI::Role::Account::Business>
+
+=for Pod::Coverage BUILDARGS

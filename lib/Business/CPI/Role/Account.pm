@@ -272,10 +272,6 @@ class, and it will be inflated for you.
 
 The URL the user will be redirected when the account is created.
 
-=method BUILDARGS
-
-Used to inflate C<address> and C<business> keys in the constructor.
-
 =head1 SPONSORED BY
 
 Estante Virtual - L<http://www.estantevirtual.com.br>

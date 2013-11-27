@@ -18,3 +18,5 @@ which uses L<< Account | Business::CPI::Role::Account >>.
 =head1 SEE ALSO
 
 L<Business::CPI::Role::Account>
+
+=for Pod::Coverage BUILDARGS
