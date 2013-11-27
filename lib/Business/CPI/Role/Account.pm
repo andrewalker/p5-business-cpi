@@ -2,10 +2,8 @@ package Business::CPI::Role::Account;
 # ABSTRACT: Manage accounts in the gateway
 use Moo::Role;
 use utf8;
-use DateTime;
-use Email::Valid;
-use Scalar::Util qw/blessed/;
-use Business::CPI::Util::Types qw/is_valid_phone_number phone_number/;
+use MooX::Types::MooseLike::Base qw/Bool/;
+use Business::CPI::Util::Types qw/PhoneNumber to_PhoneNumber EmailAddress DateTime/;
 
 # VERSION
 
@@ -13,7 +11,7 @@ use Business::CPI::Util::Types qw/is_valid_phone_number phone_number/;
 # actually... does this really belong here???
 has return_url => ( is => 'rw' );
 
-has _gateway => ( is => 'ro', required => 1 );
+has _gateway   => ( is => 'ro', required => 1 );
 
 has id         => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
@@ -25,42 +23,29 @@ has first_name => ( is => 'rw' );
 has last_name  => ( is => 'rw' );
 
 has phone => (
-    is  => 'rw',
-    isa => sub {
-        die "Must be in a valid phone number, "
-          . "see Business::CPI::Role::Account docs for details"
-          unless is_valid_phone_number( $_[0] );
-    },
-    coerce => \&phone_number
+    is     => 'rw',
+    isa    => PhoneNumber,
+    coerce => \&to_PhoneNumber,
 );
 
 has login => ( is => 'rw' );
 
 has email => (
-    is => 'rw',
-    isa => sub {
-        die "Must be a valid e-mail address"
-            unless Email::Valid->address( $_[0] );
-    }
+    is  => 'rw',
+    isa => EmailAddress,
 );
 
 has birthdate => (
-    is => 'rw',
-    isa => sub {
-        die "Must be a DateTime object"
-            unless blessed $_[0] && $_[0]->isa('DateTime');
-    }
+    is  => 'rw',
+    isa => DateTime,
 );
 
 has registration_date => (
-    is => 'rw',
-    isa => sub {
-        die "Must be a DateTime object"
-            unless blessed $_[0] && $_[0]->isa('DateTime');
-    }
+    is  => 'rw',
+    isa => DateTime,
 );
 
-has is_business_account => ( is => 'rw', coerce => sub { $_[0] ? 1 : 0 } );
+has is_business_account => ( is => 'rw', isa => Bool );
 
 has address => ( is => 'rw' );
 

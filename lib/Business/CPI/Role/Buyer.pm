@@ -2,15 +2,12 @@ package Business::CPI::Role::Buyer;
 # ABSTRACT: Information about the client
 use Moo::Role;
 use Locale::Country ();
-use Email::Valid ();
+use Business::CPI::Util::Types qw/EmailAddress/;
 
 # VERSION
 
 has email => (
-    isa => sub {
-        die "Must be a valid e-mail address"
-            unless Email::Valid->address( $_[0] );
-    },
+    isa => EmailAddress,
     is => 'ro',
 );
 

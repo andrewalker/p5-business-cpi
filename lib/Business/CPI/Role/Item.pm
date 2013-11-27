@@ -1,45 +1,49 @@
 package Business::CPI::Role::Item;
 # ABSTRACT: Role to represent a product in the cart
 use Moo::Role;
-use Business::CPI::Util::Types qw/stringified_money/;
+use MooX::Types::MooseLike::Base qw/Int/;
+use Business::CPI::Util::Types qw/Money to_Money/;
 
 # VERSION
 
 has id => (
-    coerce => sub { '' . $_[0] },
-    is => 'ro',
+    coerce   => sub { '' . $_[0] },
+    is       => 'ro',
     required => 1,
 );
 
 has price => (
-    coerce => \&stringified_money,
-    is => 'ro',
+    coerce   => \&to_Money,
+    isa      => Money,
+    is       => 'ro',
     required => 1,
 );
 
 has weight => (
     coerce => sub { 0 + $_[0] },
-    is => 'ro',
+    is     => 'ro',
 );
 
 has shipping => (
-    coerce => \&stringified_money,
-    is => 'ro',
+    coerce => \&to_Money,
+    isa    => Money,
+    is     => 'ro',
 );
 
 has shipping_additional => (
-    coerce => \&stringified_money,
-    is => 'ro',
+    coerce => \&to_Money,
+    isa    => Money,
+    is     => 'ro',
 );
 
 has description => (
     coerce => sub { '' . $_[0] },
-    is => 'ro',
+    is     => 'ro',
 );
 
 has quantity => (
-    coerce => sub { int $_[0] },
-    is => 'ro',
+    isa     => Int,
+    is      => 'ro',
     default => sub { 1 },
 );
 

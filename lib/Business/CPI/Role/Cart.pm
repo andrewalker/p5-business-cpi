@@ -4,7 +4,7 @@ package Business::CPI::Role::Cart;
 use Moo::Role;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
-use Business::CPI::Util::Types qw/stringified_money/;
+use Business::CPI::Util::Types qw/Money to_Money/;
 
 # VERSION
 
@@ -12,26 +12,30 @@ has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
 
 has buyer => (
-    is => 'ro',
+    is  => 'ro',
     isa => sub {
-        $_[0]->does('Business::CPI::Role::Buyer') or $_[0]->does('Business::CPI::Role::Account')
+        $_[0]->does('Business::CPI::Role::Buyer')
+          or $_[0]->does('Business::CPI::Role::Account')
           or die "Must implement Business::CPI::Role::Buyer or Business::CPI::Role::Account";
     },
     required => 1,
 );
 
 has tax => (
-    coerce => \&stringified_money,
+    coerce => \&to_Money,
+    isa    => Money,
     is     => 'rw',
 );
 
 has handling => (
-    coerce => \&stringified_money,
+    coerce => \&to_Money,
+    isa    => Money,
     is     => 'rw',
 );
 
 has discount => (
-    coerce => \&stringified_money,
+    coerce => \&to_Money,
+    isa    => Money,
     is     => 'rw',
 );
 

@@ -2,7 +2,7 @@ package Business::CPI::Role::Account::Address;
 # ABSTRACT: Business::CPI role for Addresses
 use Moo::Role;
 use utf8;
-use Locale::Country ();
+use Business::CPI::Util::Types qw/Country to_Country/;
 
 # VERSION
 
@@ -20,22 +20,9 @@ has zip_code   => ( is => 'rw' );
 has city       => ( is => 'rw' );
 has state      => ( is => 'rw' ); # TODO: compare against Brazilian UF's, if country eq br
 has country => (
-    is => 'rw',
-    isa => sub {
-        # TODO: optimize
-        for (Locale::Country::all_country_codes()) {
-            return 1 if $_ eq $_[0];
-        }
-        die 'Must provide a valid country code';
-    },
-    coerce => sub {
-        my $country = lc $_[0];
-        # TODO: optimize
-        for (Locale::Country::all_country_codes()) {
-            return $_ if $_ eq $country;
-        }
-        return Locale::Country::country2code($country);
-    },
+    is     => 'rw',
+    isa    => Country,
+    coerce => \&to_Country,
 );
 
 sub _build_line1 {

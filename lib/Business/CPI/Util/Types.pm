@@ -1,24 +1,63 @@
 package Business::CPI::Util::Types;
-# ABSTRACT: Coersion and checks
+# ABSTRACT: Basic types for Business::CPI
 use warnings;
 use strict;
-use Exporter 'import';
-use Scalar::Util qw/looks_like_number/;
+use base qw(Exporter);
+use Scalar::Util qw/looks_like_number blessed/;
+use MooX::Types::MooseLike qw(exception_message);
+use MooX::Types::MooseLike::Base;
+use Locale::Country ();
+use Email::Valid ();
 
 # VERSION
 
-our @EXPORT_OK = qw/stringified_money is_valid_phone_number phone_number/;
+our @EXPORT_OK = qw/to_Money to_PhoneNumber to_Country/;
+our %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-sub stringified_money {
+MooX::Types::MooseLike::register_types([
+    {
+        name    => 'Money',
+        test    => sub { $_[0] =~ m#^[\d\,]+\.\d{2}$# },
+        message => sub { exception_message( $_[0], 'money' ) },
+        inflate => 0,
+    },
+    {
+        name    => 'PhoneNumber',
+        test    => sub { $_[0] =~ m#^\+?\d+$# },
+        message => sub { exception_message( $_[0], 'phone number' ) },
+        inflate => 0,
+    },
+    {
+        name    => 'EmailAddress',
+        test    => sub { Email::Valid->address($_[0]) },
+        message => sub { exception_message( $_[0], 'e-mail address' ) },
+        inflate => 0,
+    },
+    {
+        name => 'Country',
+        test => sub {
+            my $c = $_[0];
+            for (Locale::Country::all_country_codes()) {
+                return 1 if $_ eq $c;
+            }
+        },
+        message => sub { exception_message( $_[0], '2-letter country code' ) },
+        inflate => 0,
+    },
+    {
+        name    => 'DateTime',
+        test    => sub { blessed($_[0]) && $_[0]->isa('DateTime') },
+        message => sub { exception_message( $_[0], 'DateTime object' ) },
+        inflate => 0,
+    },
+], __PACKAGE__);
+
+sub to_Money {
     my $r = looks_like_number($_[0]) ? $_[0] : 0;
     return sprintf( "%.2f", 0+$r);
 }
 
-sub is_valid_phone_number {
-    return $_[0] =~ m#^\+?\d+$#;
-}
-
-sub phone_number {
+sub to_PhoneNumber {
     # avoid warnings
     return unless defined $_[0];
 
@@ -32,6 +71,14 @@ sub phone_number {
     $r =~ s{[^\+\w]}{}g;
 
     return $r;
+}
+
+sub to_Country {
+    my $country = lc $_[0];
+    for (Locale::Country::all_country_codes()) {
+        return $_ if $_ eq $country;
+    }
+    return Locale::Country::country2code($country);
 }
 
 1;
