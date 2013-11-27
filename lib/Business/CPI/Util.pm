@@ -1,8 +1,11 @@
 package Business::CPI::Util;
+# ABSTRACT: Utilities for Business::CPI
 use warnings;
 use strict;
 use utf8;
 use Class::Load ();
+
+# VERSION
 
 sub load_class {
     my ($driver_name, $class_name) = @_;
@@ -13,3 +16,8 @@ sub load_class {
 }
 
 1;
+
+=method load_class
+
+Used to load a class, either a custom class of the gateway, or the default one
+in Business::CPI core.
