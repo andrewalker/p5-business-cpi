@@ -6,6 +6,7 @@ use Moo;
 # VERSION
 
 extends 'Business::CPI::Gateway::Base';
+with 'Business::CPI::Role::Gateway::FormCheckout';
 
 sub get_hidden_inputs {
     my ( $self, $info ) = @_;
@@ -91,3 +92,5 @@ __END__
 =head1 DESCRIPTION
 
 Used only for testing. See the t/ directory in this distribution.
+
+=method get_hidden_inputs
