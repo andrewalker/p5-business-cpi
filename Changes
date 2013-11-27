@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+
+0.908 2013-11-26T07:39:11Z
     - Add id and gateway_id attributes for the cart, and make some of the other
       attributes rw
     - General optimizations while adding items to the cart, and allow only
