@@ -4,7 +4,7 @@ package Business::CPI::Cart;
 use Moo;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
-use Business::CPI::Types qw/stringified_money/;
+use Business::CPI::Util::Types qw/stringified_money/;
 use Class::Load ();
 
 # VERSION

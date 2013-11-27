@@ -1,7 +1,7 @@
 package Business::CPI::Item;
 # ABSTRACT: Product in the cart
 use Moo;
-use Business::CPI::Types qw/stringified_money/;
+use Business::CPI::Util::Types qw/stringified_money/;
 
 # VERSION
 

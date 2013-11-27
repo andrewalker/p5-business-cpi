@@ -2,7 +2,7 @@ package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
 use Locale::Currency ();
-use Business::CPI::EmptyLogger;
+use Business::CPI::Util::EmptyLogger;
 use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
@@ -31,7 +31,7 @@ has currency => (
 
 has log => (
     is => 'ro',
-    default => sub { Business::CPI::EmptyLogger->new },
+    default => sub { Business::CPI::Util::EmptyLogger->new },
 );
 
 has checkout_with_token => (

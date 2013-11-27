@@ -6,7 +6,7 @@ use DateTime;
 use Email::Valid;
 use Scalar::Util qw/blessed/;
 use Class::Load ();
-use Business::CPI::Types qw/is_valid_phone_number phone_number/;
+use Business::CPI::Util::Types qw/is_valid_phone_number phone_number/;
 
 # VERSION
 

@@ -1,4 +1,4 @@
-package Business::CPI::Types;
+package Business::CPI::Util::Types;
 # ABSTRACT: Coersion and checks
 use warnings;
 use strict;

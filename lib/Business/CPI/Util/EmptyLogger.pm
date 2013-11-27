@@ -1,4 +1,4 @@
-package Business::CPI::EmptyLogger;
+package Business::CPI::Util::EmptyLogger;
 # ABSTRACT: Default null logger
 use warnings;
 use strict;
