@@ -1,6 +1,6 @@
-package Business::CPI::Item;
-# ABSTRACT: Product in the cart
-use Moo;
+package Business::CPI::Role::Item;
+# ABSTRACT: Role to represent a product in the cart
+use Moo::Role;
 use Business::CPI::Util::Types qw/stringified_money/;
 
 # VERSION

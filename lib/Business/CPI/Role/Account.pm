@@ -1,6 +1,6 @@
-package Business::CPI::Account;
+package Business::CPI::Role::Account;
 # ABSTRACT: Manage accounts in the gateway
-use Moo;
+use Moo::Role;
 use utf8;
 use DateTime;
 use Email::Valid;
@@ -29,7 +29,7 @@ has phone => (
     is  => 'rw',
     isa => sub {
         die "Must be in a valid phone number, "
-          . "see Business::CPI::Account docs for details"
+          . "see Business::CPI::Role::Account docs for details"
           unless is_valid_phone_number( $_[0] );
     },
     coerce => \&phone_number
@@ -116,14 +116,12 @@ sub _build_full_name {
 sub _inflate_comp {
     my ($self, $which, $comp, $gateway) = @_;
 
-    my $default_class = "Business::CPI::Account::$which";
-
     $gateway ||= $self->_gateway;
 
     my $gateway_name = (split /::/, ref $gateway)[-1];
     my $comp_class = Class::Load::load_first_existing_class(
-        "${default_class}::${gateway_name}",
-        "${default_class}"
+        "Business::CPI::${gateway_name}::Account::$which",
+        "Business::CPI::Base::Account::$which"
     );
 
     $comp->{_gateway} = $gateway;
@@ -199,7 +197,7 @@ sub _inflate_business {
 
 =head1 DESCRIPTION
 
-This class is used internally by the gateway to build objects representing a
+This role is used internally by the gateway to build objects representing a
 person's account in the gateway. In general, the end-user shouldn't have to
 instantiate this directly, but use the helper methods in the gateway main
 class. See the L</SYNOPSIS> for an example, and be sure to check the gateway
@@ -265,16 +263,16 @@ a company.
 
 =attr address
 
-See L<Business::CPI::Account::Address>. You should provide a
+See L<Business::CPI::Role::Account::Address>. You should provide a
 HashRef with the attributes, according to the
-L<< Address | Business::CPI::Account::Address >>
-class, and it will be inflated for you.
+L<< Address | Business::CPI::Role::Account::Address >>
+role, and it will be inflated for you.
 
 =attr business
 
-See L<Business::CPI::Account::Business>. You should provide a
+See L<Business::CPI::Role::Account::Business>. You should provide a
 HashRef with the attributes, according to the
-L<< Business | Business::CPI::Account::Business >>
+L<< Business | Business::CPI::Role::Account::Business >>
 class, and it will be inflated for you.
 
 =attr return_url
@@ -291,5 +289,5 @@ Estante Virtual - L<http://www.estantevirtual.com.br>
 
 =head1 SEE ALSO
 
-L<Business::CPI>, L<Business::CPI::Account::Address>,
-L<Business::CPI::Account::Business>, L<Business::CPI::Buyer>
+L<Business::CPI>, L<Business::CPI::Role::Account::Address>,
+L<Business::CPI::Role::Account::Business>, L<Business::CPI::Role::Buyer>

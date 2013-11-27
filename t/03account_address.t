@@ -2,13 +2,13 @@
 use warnings;
 use strict;
 use utf8;
-use Business::CPI::Account::Address;
+use Business::CPI::Base::Account::Address;
 use Test::More;
 use Test::Exception;
 use DateTime;
 
 my @attrs = qw/street number complement district city state country zip_code/;
-my $class = 'Business::CPI::Account::Address';
+my $class = 'Business::CPI::Base::Account::Address';
 
 # Test class meta
 {

@@ -1,7 +1,7 @@
-package Business::CPI::Cart;
-# ABSTRACT: Shopping cart
+package Business::CPI::Role::Cart;
+# ABSTRACT: Shopping cart or an order
 
-use Moo;
+use Moo::Role;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
 use Business::CPI::Util::Types qw/stringified_money/;
@@ -15,8 +15,8 @@ has gateway_id => ( is => 'rw' );
 has buyer => (
     is => 'ro',
     isa => sub {
-        $_[0]->isa('Business::CPI::Buyer') or $_[0]->isa('Business::CPI::Account')
-          or die "Must be a Business::CPI::Buyer or Business::CPI::Account";
+        $_[0]->does('Business::CPI::Role::Buyer') or $_[0]->does('Business::CPI::Role::Account')
+          or die "Must implement Business::CPI::Role::Buyer or Business::CPI::Role::Account";
     },
     required => 1,
 );
@@ -59,8 +59,8 @@ sub _build__item_class {
     my $self = shift;
     my $gateway_name = (split /::/, ref $self->_gateway)[-1];
     return Class::Load::load_first_existing_class(
-        "Business::CPI::Item::$gateway_name",
-        "Business::CPI::Item"
+        "Business::CPI::${gateway_name}::Item",
+        "Business::CPI::Base::Item"
     );
 }
 
@@ -133,7 +133,8 @@ The id your gateway has set for this cart, if there is one.
 
 =attr buyer
 
-The person paying for the shopping cart. See L<Business::CPI::Buyer>.
+The person paying for the shopping cart. See L<Business::CPI::Role::Buyer> or
+L<Business::CPI::Role::Account>.
 
 =attr discount
 
@@ -149,8 +150,8 @@ Handling to be applied to the total amount. Positive number.
 
 =method add_item
 
-Create a new Business::CPI::Item object with the given hashref, and add it to
-cart.
+Create a new L<< Item | Business::CPI::Role::Item >> object with the given
+hashref, and add it to cart.
 
 =method get_item
 
@@ -158,8 +159,8 @@ Get item with the given id.
 
 =method get_form_to_pay
 
-Takes a payment_id as the only argument, and returns an HTML::Element form, to
-submit to the gateway.
+Takes a payment_id as the only argument, and returns an L<HTML::Element> form,
+to submit to the gateway.
 
 =method get_checkout_code
 

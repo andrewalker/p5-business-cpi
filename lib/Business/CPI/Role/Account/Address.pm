@@ -1,6 +1,6 @@
-package Business::CPI::Account::Address;
-# ABSTRACT: Business::CPI class for Addresses
-use Moo;
+package Business::CPI::Role::Account::Address;
+# ABSTRACT: Business::CPI role for Addresses
+use Moo::Role;
 use utf8;
 use Locale::Country ();
 
@@ -81,7 +81,7 @@ sub _build_line2 {
 
 =head1 DESCRIPTION
 
-This class represents addresses in the context of accounts in gateways, both of
+This role represents addresses in the context of accounts in gateways, both of
 individuals and companies.
 
 =attr line1
@@ -135,4 +135,5 @@ Estante Virtual - L<http://www.estantevirtual.com.br>
 
 =head1 SEE ALSO
 
-L<Business::CPI>, L<Business::CPI::Account>, L<Business::CPI::Account::Business>
+L<Business::CPI>, L<Business::CPI::Role::Account>,
+L<Business::CPI::Role::Account::Business>

@@ -2,17 +2,17 @@
 use warnings;
 use strict;
 use Test::More;
-use Business::CPI::Buyer;
+use Business::CPI::Base::Buyer;
 
 # TEST NO ADDRESS
 {
-    my $buyer = Business::CPI::Buyer->new({
+    my $buyer = Business::CPI::Base::Buyer->new({
         email => 'buyer@andrewalker.net',
         name  => 'Mr. Buyer',
     });
 
     ok($buyer, 'the $buyer object is defined');
-    isa_ok($buyer, 'Business::CPI::Buyer');
+    isa_ok($buyer, 'Business::CPI::Base::Buyer');
     ok(! defined $buyer->address_street, 'street field is empty when not set in builder');
 }
 
@@ -28,7 +28,7 @@ use Business::CPI::Buyer;
         address_country    => 'BR',
     );
 
-    my $buyer = Business::CPI::Buyer->new({
+    my $buyer = Business::CPI::Base::Buyer->new({
         email              => 'buyer@andrewalker.net',
         name               => 'Mr. Buyer',
         %address,
@@ -37,7 +37,7 @@ use Business::CPI::Buyer;
     $address{address_country} = 'br'; # it correctly coerces to lowercase
 
     ok($buyer, 'the $buyer object is defined');
-    isa_ok($buyer, 'Business::CPI::Buyer');
+    isa_ok($buyer, 'Business::CPI::Base::Buyer');
 
     for (sort keys %address) {
         is($buyer->$_, $address{$_}, "$_ is properly defined in the \$buyer object");
@@ -56,14 +56,14 @@ use Business::CPI::Buyer;
         address_country    => 'Brazil',
     );
 
-    my $buyer = Business::CPI::Buyer->new({
+    my $buyer = Business::CPI::Base::Buyer->new({
         email              => 'buyer@andrewalker.net',
         name               => 'Mr. Buyer',
         %address,
     });
 
     ok($buyer, 'the $buyer object is defined');
-    isa_ok($buyer, 'Business::CPI::Buyer');
+    isa_ok($buyer, 'Business::CPI::Base::Buyer');
 
     is($buyer->address_country, 'br', "address_country is properly stored in the \$buyer object");
 }
@@ -79,7 +79,7 @@ use Business::CPI::Buyer;
     );
 
     my $buyer = eval {
-        Business::CPI::Buyer->new({
+        Business::CPI::Base::Buyer->new({
             email              => 'buyer@andrewalker.net',
             name               => 'Mr. Buyer',
             %address,
@@ -103,14 +103,14 @@ use Business::CPI::Buyer;
         address_country    => 'BR',
     );
 
-    my $buyer = Business::CPI::Buyer->new({
+    my $buyer = Business::CPI::Base::Buyer->new({
         email              => 'buyer@andrewalker.net',
         name               => 'Mr. Buyer',
         %address,
     });
 
     ok($buyer, 'the $buyer object is defined');
-    isa_ok($buyer, 'Business::CPI::Buyer');
+    isa_ok($buyer, 'Business::CPI::Base::Buyer');
 
     is($buyer->address_line1, "Street 1, 25", "Line 1 is correct");
     is($buyer->address_line2, "My neighbourhood - Apartment 05", "Line 2 is correct");
@@ -126,14 +126,14 @@ use Business::CPI::Buyer;
         address_country => 'BR',
     );
 
-    my $buyer = Business::CPI::Buyer->new({
+    my $buyer = Business::CPI::Base::Buyer->new({
         email              => 'buyer@andrewalker.net',
         name               => 'Mr. Buyer',
         %address,
     });
 
     ok($buyer, 'the $buyer object is defined');
-    isa_ok($buyer, 'Business::CPI::Buyer');
+    isa_ok($buyer, 'Business::CPI::Base::Buyer');
 
     is($buyer->address_line1, $address{address_line1}, "Line 1 is correct");
     is($buyer->address_line2, $address{address_line2}, "Line 2 is correct");

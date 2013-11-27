@@ -99,7 +99,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'Business::CPI::Item');
+    isa_ok($item, 'Business::CPI::Base::Item');
     is($item->id,          '1',              'item id is correct');
     is($item->description, 'Expensive item', 'item desc is correct');
     isnt($item->price,     200.5,            'item price is not numeric');
@@ -117,7 +117,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'Business::CPI::Item');
+    isa_ok($item, 'Business::CPI::Base::Item');
     is($item->id,          '02',           'item id is correct');
     is($item->description, 'Cheap item',   'item desc is correct');
     is($item->price,       '0.56',         'item price is correct');
@@ -134,7 +134,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'Business::CPI::Item');
+    isa_ok($item, 'Business::CPI::Base::Item');
 
     is($item->id,          '03',         'item id is correct');
     is($item->description, 'Third item', 'item desc is correct');
@@ -153,7 +153,7 @@ $cart->add_item({
         diag $@;
     }
 
-    isa_ok($item, 'Business::CPI::Item');
+    isa_ok($item, 'Business::CPI::Base::Item');
 
     is($item->id,          'my-id',          'item id is correct');
     is($item->description, 'Real string id', 'item desc is correct');

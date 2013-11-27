@@ -1,6 +1,6 @@
-package Business::CPI::Buyer;
+package Business::CPI::Role::Buyer;
 # ABSTRACT: Information about the client
-use Moo;
+use Moo::Role;
 use Locale::Country ();
 use Email::Valid ();
 
@@ -75,7 +75,7 @@ sub _build_address_line2 {
 # add all the other attrs.
 #
 # try and find the common ones between PagSeguro / PayPal / etc, and keep them
-# here. Specific attrs can stay in Business::CPI::Buyer::${gateway}
+# here. Specific attrs can stay in Business::CPI::${gateway}::Buyer
 
 1;
 
@@ -83,15 +83,14 @@ __END__
 
 =head1 NOTE
 
-This class will soon be ported to use L<Business::CPI::Account>, either
-becoming a role, or extending it via inheritance. So beware of
-backcompatibility issues. In particular, all attributes prefixed with
-C<address_*> will lose the prefix and be set using the
-L<Business::CPI::Account::Address> class.
+This role will soon be ported to use L<Business::CPI::Role::Account>, or
+deprecated. So beware of backcompatibility issues. In particular, all
+attributes prefixed with C<address_*> will lose the prefix and be set using
+L<Business::CPI::Role::Account::Address>.
 
 =head1 DESCRIPTION
 
-This class holds information about the buyer in a shopping cart. The address
+This role holds information about the buyer in a shopping cart. The address
 attributes are available so that if shipping is required, the buyer's address
 will be passed to the gateway (if the attributes were set).
 
@@ -143,6 +142,6 @@ State.
 
 =attr address_country
 
-Locale::Country code for the country. You can set using the ISO 3166-1
+L<Locale::Country> code for the country. You can set using the ISO 3166-1
 two-letter code, or the full name in English. It will coerce it and store the
 ISO 3166-1 two-letter code.

@@ -3,12 +3,12 @@ use warnings;
 use strict;
 use utf8;
 use Business::CPI::Gateway::Test;
-use Business::CPI::Account::Business;
+use Business::CPI::Base::Account::Business;
 use Test::More;
 use Test::Exception;
 
 my @attrs = qw/corporate_name trading_name phone address/;
-my $class = 'Business::CPI::Account::Business';
+my $class = 'Business::CPI::Base::Account::Business';
 
 # Test class meta
 {
@@ -49,7 +49,7 @@ my $class = 'Business::CPI::Account::Business';
         is($obj->$_, $data{$_}, $_ . ' is set ok') if $_ ne 'address';
     }
 
-    isa_ok($obj->address, 'Business::CPI::Account::Address');
+    isa_ok($obj->address, 'Business::CPI::Base::Account::Address');
     is($obj->address->number, '321', 'address seems to be the one we provided');
 
     $data{address}{number} = '555';
@@ -59,7 +59,7 @@ my $class = 'Business::CPI::Account::Business';
         $addr = $obj->address($data{address});
     } 'Object is built ok';
 
-    isa_ok($addr, 'Business::CPI::Account::Address');
+    isa_ok($addr, 'Business::CPI::Base::Account::Address');
     is($addr, $obj->address, 'the object is the same');
 
     for (keys %{ $data{address} }) {

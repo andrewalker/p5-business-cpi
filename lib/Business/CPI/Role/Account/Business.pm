@@ -1,6 +1,6 @@
-package Business::CPI::Account::Business;
+package Business::CPI::Role::Account::Business;
 # ABSTRACT: Business::CPI representation of corporations
-use Moo;
+use Moo::Role;
 use utf8;
 use Class::Load ();
 
@@ -46,8 +46,8 @@ sub _inflate_address {
 
     my $gateway_name = (split /::/, ref $gateway)[-1];
     my $address_class = Class::Load::load_first_existing_class(
-        "Business::CPI::Account::Address::$gateway_name",
-        "Business::CPI::Account::Address"
+        "Business::CPI::${gateway_name}::Account::Address",
+        "Business::CPI::Base::Account::Address"
     );
 
     return $address_class->new($addr);
@@ -78,9 +78,9 @@ sub _inflate_address {
 
 =head1 DESCRIPTION
 
-This class represents information about businesses in the context of accounts
-in gateways. You shouldn't have to instantiate this yourself, but use the
-helpers provided by the gateway driver.
+This role represents information about businesses in the context of accounts in
+gateways. You shouldn't have to instantiate this yourself, but use the helpers
+provided by the gateway driver.
 
 =attr corporate_name
 
@@ -96,10 +96,10 @@ A phone number of the company.
 
 =attr address
 
-See L<Business::CPI::Account::Address>. You should provide a
+See L<Business::CPI::Role::Account::Address>. You should provide a
 HashRef with the attributes, according to the
-L<< Address | Business::CPI::Account::Address >>
-class, and it will be inflated for you.
+L<< Address | Business::CPI::Role::Account::Address >>
+role, and it will be inflated for you.
 
 =method BUILDARGS
 
@@ -111,4 +111,5 @@ Estante Virtual - L<http://www.estantevirtual.com.br>
 
 =head1 SEE ALSO
 
-L<Business::CPI>, L<Business::CPI::Account>, L<Business::CPI::Account::Address>
+L<Business::CPI>, L<Business::CPI::Role::Account>,
+L<Business::CPI::Role::Account::Address>

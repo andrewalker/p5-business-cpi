@@ -3,7 +3,7 @@ package Business::CPI::Gateway::Base;
 use Moo;
 use Locale::Currency ();
 use Business::CPI::Util::EmptyLogger;
-use Class::Load qw/load_first_existing_class/;
+use Class::Load ();
 use HTML::Element;
 use Data::Dumper;
 
@@ -85,8 +85,8 @@ sub _build__buyer_class {
     my $self = shift;
     my $gateway_name = (split /::/, ref $self)[-1];
     return Class::Load::load_first_existing_class(
-        "Business::CPI::Buyer::$gateway_name",
-        "Business::CPI::Buyer"
+        "Business::CPI::${gateway_name}::Buyer",
+        "Business::CPI::Base::Buyer"
     );
 }
 
@@ -94,8 +94,8 @@ sub _build__cart_class {
     my $self = shift;
     my $gateway_name = (split /::/, ref $self)[-1];
     return Class::Load::load_first_existing_class(
-        "Business::CPI::Cart::$gateway_name",
-        "Business::CPI::Cart"
+        "Business::CPI::${gateway_name}::Cart",
+        "Business::CPI::Base::Cart"
     );
 }
 
@@ -104,8 +104,8 @@ sub _build__account_class {
 
     my $gateway_name = (split /::/, ref $self)[-1];
     return Class::Load::load_first_existing_class(
-        "Business::CPI::Account::$gateway_name",
-        "Business::CPI::Account"
+        "Business::CPI::${gateway_name}::Account",
+        "Business::CPI::Base::Account"
     );
 }
 
@@ -352,7 +352,7 @@ Simply makes the receiver_id alias work.
 
 =method new_cart
 
-Creates a new L<Business::CPI::Cart> connected to this gateway.
+Creates a new L<Business::CPI::Role::Cart> connected to this gateway.
 
 =method new_account
 
@@ -362,13 +362,13 @@ provides it.
 
 =method get_form
 
-Get the form to checkout. Use the method in L<Business::CPI::Cart>, don't use
+Get the form to checkout. Use the method in L<Business::CPI::Role::Cart>, don't use
 this method directly.
 
 =method get_checkout_code
 
 Generates a payment token for a given cart. Do not call this method directly.
-Instead, see L<Business::CPI::Cart/get_checkout_code>.
+Instead, see L<Business::CPI::Role::Cart/get_checkout_code>.
 
 =method get_notification_details
 

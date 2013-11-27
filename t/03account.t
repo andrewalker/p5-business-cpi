@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use utf8;
 use Business::CPI::Gateway::Test;
-use Business::CPI::Account;
+use Business::CPI::Base::Account;
 use Test::More;
 use Test::Exception;
 use DateTime;
@@ -13,7 +13,7 @@ my @attrs = qw(
       login email birthdate registration_date phone
       is_business_account address business return_url
 );
-my $class = 'Business::CPI::Account';
+my $class = 'Business::CPI::Base::Account';
 
 # Test class meta
 {
@@ -23,7 +23,7 @@ my $class = 'Business::CPI::Account';
         ok($class->can($attr), qq{class has attribute $attr});
     }
 
-    isa_ok($class, 'Business::CPI::Account');
+    isa_ok($class, 'Business::CPI::Base::Account');
 }
 
 # Test wrong instantiation
@@ -90,8 +90,8 @@ my $class = 'Business::CPI::Account';
     is($obj->return_url, 'http://mrsmith.com', 'return url is correct');
     is($obj->full_name, 'John Smith', 'name is correct');
     isa_ok($obj->birthdate, 'DateTime');
-    isa_ok($obj->business, 'Business::CPI::Account::Business');
-    isa_ok($obj->address, 'Business::CPI::Account::Address');
+    isa_ok($obj->business, 'Business::CPI::Base::Account::Business');
+    isa_ok($obj->address, 'Business::CPI::Base::Account::Address');
     is($obj->address->street, 'Av. Paulista', "address seems to be correct");
     is($obj->business->trading_name, 'Aware', "business seems to be correct");
     is($obj->business->address->street, 'Alameda Santos', "business' address seems to be correct");
