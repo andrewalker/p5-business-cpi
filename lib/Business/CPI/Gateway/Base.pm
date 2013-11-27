@@ -2,12 +2,17 @@ package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
 use Locale::Currency ();
+use Business::CPI::Util;
 use Business::CPI::Util::EmptyLogger;
-use Class::Load ();
 use HTML::Element;
 use Data::Dumper;
 
 # VERSION
+
+has driver_name => (
+    is      => 'ro',
+    default => sub { ( split /::/, ref $_[0] )[-1] },
+);
 
 has receiver_email => (
     is => 'ro',
@@ -69,45 +74,35 @@ has form_encoding => (
     default => sub { 'UTF-8' },
 );
 
-has _buyer_class => (
+has item_class => (
     is => 'lazy',
+    default => sub { shift->_load_class('Item') },
 );
 
-has _cart_class => (
+has cart_class => (
     is => 'lazy',
+    default => sub { shift->_load_class('Cart') },
 );
 
-has _account_class => (
+has buyer_class => (
     is => 'lazy',
+    default => sub { shift->_load_class('Buyer') },
 );
 
-sub _build__buyer_class {
-    my $self = shift;
-    my $gateway_name = (split /::/, ref $self)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::${gateway_name}::Buyer",
-        "Business::CPI::Base::Buyer"
-    );
-}
+has account_class => (
+    is => 'lazy',
+    default => sub { shift->_load_class('Account') },
+);
 
-sub _build__cart_class {
-    my $self = shift;
-    my $gateway_name = (split /::/, ref $self)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::${gateway_name}::Cart",
-        "Business::CPI::Base::Cart"
-    );
-}
+has account_address_class => (
+    is => 'lazy',
+    default => sub { shift->_load_class('Account::Address') },
+);
 
-sub _build__account_class {
-    my $self = shift;
-
-    my $gateway_name = (split /::/, ref $self)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::${gateway_name}::Account",
-        "Business::CPI::Base::Account"
-    );
-}
+has account_business_class => (
+    is => 'lazy',
+    default => sub { shift->_load_class('Account::Business') },
+);
 
 around BUILDARGS => sub {
     my $orig  = shift;
@@ -122,7 +117,7 @@ around BUILDARGS => sub {
 sub new_account {
     my ($self, $account) = @_;
 
-    return $self->_account_class->new(
+    return $self->account_class->new(
         _gateway => $self,
         %$account
     );
@@ -137,8 +132,8 @@ sub new_cart {
 
     my @items = @{ delete $info->{items} || [] };
 
-    my $buyer_class = $self->_buyer_class;
-    my $cart_class  = $self->_cart_class;
+    my $buyer_class = $self->buyer_class;
+    my $cart_class  = $self->cart_class;
 
     $self->log->debug(
         "Loaded buyer class $buyer_class and cart class $cart_class."
@@ -280,6 +275,10 @@ sub get_checkout_code { shift->_unimplemented }
 sub _unimplemented {
     my $self = shift;
     die "Not implemented.";
+}
+
+sub _load_class {
+    Business::CPI::Util::load_class(shift->driver_name, @_);
 }
 
 1;

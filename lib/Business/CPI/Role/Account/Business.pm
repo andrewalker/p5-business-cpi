@@ -2,7 +2,6 @@ package Business::CPI::Role::Account::Business;
 # ABSTRACT: Business::CPI representation of corporations
 use Moo::Role;
 use utf8;
-use Class::Load ();
 
 # VERSION
 
@@ -44,13 +43,7 @@ sub _inflate_address {
 
     $gateway ||= $self->_gateway;
 
-    my $gateway_name = (split /::/, ref $gateway)[-1];
-    my $address_class = Class::Load::load_first_existing_class(
-        "Business::CPI::${gateway_name}::Account::Address",
-        "Business::CPI::Base::Account::Address"
-    );
-
-    return $address_class->new($addr);
+    return $gateway->account_address_class->new($addr);
 }
 
 1;

@@ -5,7 +5,6 @@ use Moo::Role;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
 use Business::CPI::Util::Types qw/stringified_money/;
-use Class::Load ();
 
 # VERSION
 
@@ -51,19 +50,6 @@ has _items => (
     default => sub { [] },
 );
 
-has _item_class => (
-    is => 'lazy',
-);
-
-sub _build__item_class {
-    my $self = shift;
-    my $gateway_name = (split /::/, ref $self->_gateway)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::${gateway_name}::Item",
-        "Business::CPI::Base::Item"
-    );
-}
-
 sub get_item {
     my ($self, $item_id) = @_;
 
@@ -84,7 +70,7 @@ sub add_item {
         croak q|Usage: $cart->add_item({ ... })|;
     }
 
-    my $item = $self->_item_class->new($info);
+    my $item = $self->_gateway->item_class->new($info);
 
     push @{ $self->_items }, $item;
 

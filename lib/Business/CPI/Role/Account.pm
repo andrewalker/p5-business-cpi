@@ -5,7 +5,6 @@ use utf8;
 use DateTime;
 use Email::Valid;
 use Scalar::Util qw/blessed/;
-use Class::Load ();
 use Business::CPI::Util::Types qw/is_valid_phone_number phone_number/;
 
 # VERSION
@@ -113,30 +112,24 @@ sub _build_full_name {
     return $self->first_name . ' ' . $self->last_name;
 }
 
-sub _inflate_comp {
-    my ($self, $which, $comp, $gateway) = @_;
+sub _inflate_address {
+    my ($self, $comp, $gateway) = @_;
 
     $gateway ||= $self->_gateway;
 
-    my $gateway_name = (split /::/, ref $gateway)[-1];
-    my $comp_class = Class::Load::load_first_existing_class(
-        "Business::CPI::${gateway_name}::Account::$which",
-        "Business::CPI::Base::Account::$which"
-    );
-
     $comp->{_gateway} = $gateway;
 
-    return $comp_class->new($comp);
-}
-
-sub _inflate_address {
-    my $self = shift;
-    return $self->_inflate_comp("Address", @_);
+    return $gateway->account_address_class->new($comp);
 }
 
 sub _inflate_business {
-    my $self = shift;
-    return $self->_inflate_comp("Business", @_);
+    my ($self, $comp, $gateway) = @_;
+
+    $gateway ||= $self->_gateway;
+
+    $comp->{_gateway} = $gateway;
+
+    return $gateway->account_business_class->new($comp);
 }
 
 1;
