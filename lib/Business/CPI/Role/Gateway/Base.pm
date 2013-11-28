@@ -32,6 +32,11 @@ has buyer_class => (
     default => sub { shift->_load_class('Buyer') },
 );
 
+has receiver_class => (
+    is => 'lazy',
+    default => sub { shift->_load_class('Receiver') },
+);
+
 has account_class => (
     is => 'lazy',
     default => sub { shift->_load_class('Account') },
@@ -84,6 +89,11 @@ L<Business::CPI::Base::Cart> otherwise.
 The class for the buyer (the sender). Defaults to
 Business::CPI::${driver_name}::Buyer if it exists, or
 L<Business::CPI::Base::Buyer> otherwise.
+
+=attr receiver_class
+
+The class for the receivers. Defaults to Business::CPI::${driver_name}::Receiver
+if it exists, or L<Business::CPI::Base::Receiver> otherwise.
 
 =attr account_class
 
