@@ -30,8 +30,8 @@ has percent_amount => ( is => 'rw', coerce => sub { 0 + $_[0] } );
 
 =attr gateway_id
 
-The identification this receiver has in the gateway (his account id, or login,
-or e-mail).
+B<MANDATORY>. The identification this receiver has in the gateway (his account
+id, or login, or e-mail).
 
 =attr is_primary
 
