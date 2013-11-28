@@ -2,6 +2,13 @@ Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
 
+0.909 2013-11-28T12:15:12Z
+    - TRIAL release
+    - Rework entire project organization: move all classes to the ::Base
+      namespace, and move all logic to roles.
+    - Create Util class
+    - Create and use a decent type system
+
 0.908 2013-11-26T07:39:11Z
     - Add id and gateway_id attributes for the cart, and make some of the other
       attributes rw
