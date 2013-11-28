@@ -87,9 +87,13 @@ __END__
 
 =head1 DESCRIPTION
 
-Coersions and validations for the internal CPI attributes.
+Moo types for isa checks and coersions.
 
-=method stringified_money
+=head1 TYPES
+
+=head2 Money
+
+=head2 to_Money
 
 Most gateways require the money amount to be provided with two decimal places.
 This method coerces the value into number, and then to a string as expected by
@@ -107,14 +111,15 @@ Examples:
 
 =back
 
-=method is_valid_phone_number
+=head2 PhoneNumber
 
-Checks whether the phone number is in the correct format (+9999...).
+=head2 to_PhoneNumber
 
-=method phone_number
+Phone numbers should contain an optional + sign in the beginning, indicating
+whether it contains the country code or not, and numbers only.
+Non-alphanumerical characters are allowed, such as parenthesis and spaces, but
+will be removed.
 
-Coerces phone numbers to contain an optional + sign in the beginning,
-indicating whether it contains the country code or not, and numbers only.
 Examples of accepted phone numbers, and their coerced values are:
 
 =over
@@ -132,3 +137,23 @@ Examples of accepted phone numbers, and their coerced values are:
 =item "1234567890123" remains the same
 
 =back
+
+=head2 Country
+
+=head2 to_Country
+
+Lowercase two-letter code for countries, according to ISO 3166-1. See:
+
+L<http://www.iso.org/iso/country_codes>
+
+The type is somewhat flexible, coercing to the alpha-2 code if the English name
+is provided. But the recommended way is to set it as expected, the lowercase
+alpha-2 code.
+
+=head2 EmailAddress
+
+A valid e-mail address.
+
+=head2 DateTime
+
+A valid DateTime object. No coercions here.
