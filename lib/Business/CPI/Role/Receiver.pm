@@ -35,8 +35,7 @@ around BUILDARGS => sub {
     return $args unless $args->{_gateway};
 
     if (my $id = delete $args->{gateway_id}) {
-        my $acc_class = $args->{_gateway}->account_class;
-        $args->{account} = $acc_class->new({ gateway_id => $id });
+        $args->{account} = $args->{_gateway}->new_account({ gateway_id => $id });
     }
 
     return $args;

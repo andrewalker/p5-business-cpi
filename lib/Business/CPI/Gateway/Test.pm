@@ -76,6 +76,17 @@ sub get_hidden_inputs {
         $i++;
     }
 
+    $i = 1;
+
+    foreach my $receiver (@{ $cart->_receivers }) {
+        push @hidden_inputs,
+          (
+            "receiver${i}_id"      => $receiver->account->gateway_id,
+            "receiver${i}_percent" => sprintf("%.2f", 0+$receiver->percent_amount),
+          );
+        $i++;
+    }
+
     return @hidden_inputs;
 }
 
