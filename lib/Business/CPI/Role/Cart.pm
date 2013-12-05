@@ -50,7 +50,11 @@ has _gateway => (
 
 has _items => (
     is => 'ro',
-    #isa => 'ArrayRef[Business::CPI::Item]',
+    default => sub { [] },
+);
+
+has _receivers => (
+    is => 'ro',
     default => sub { [] },
 );
 
@@ -77,6 +81,23 @@ sub add_item {
     my $item = $self->_gateway->item_class->new($info);
 
     push @{ $self->_items }, $item;
+
+    return $item;
+}
+
+sub add_receiver {
+    my ($self, $info) = @_;
+
+    if (blessed $info) {
+        croak q|Usage: $cart->add_receiver({ ... })|;
+    }
+
+    my $gateway = $self->_gateway;
+    $info->{_gateway} = $gateway;
+
+    my $item = $gateway->receiver_class->new($info);
+
+    push @{ $self->_receivers }, $item;
 
     return $item;
 }

@@ -63,10 +63,16 @@ sub new_cart {
         $self->log->debug("Building a cart with: " . Dumper($info));
     }
 
-    my @items = @{ delete $info->{items} || [] };
+    my @items     = @{ delete $info->{items}     || [] };
+    my @receivers = @{ delete $info->{receivers} || [] };
 
     my $buyer_class = $self->buyer_class;
     my $cart_class  = $self->cart_class;
+
+    # We might be using a more generic Account class
+    if ($buyer_class->does('Business::CPI::Role::Account')) {
+        $info->{buyer}{_gateway} = $self;
+    }
 
     $self->log->debug(
         "Loaded buyer class $buyer_class and cart class $cart_class."
@@ -84,6 +90,10 @@ sub new_cart {
 
     for (@items) {
         $cart->add_item($_);
+    }
+
+    for (@receivers) {
+        $cart->add_receiver($_);
     }
 
     return $cart;
