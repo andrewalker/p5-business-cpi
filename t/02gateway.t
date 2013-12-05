@@ -6,10 +6,10 @@ use Business::CPI;
 
 my $cpi = eval {
     Business::CPI->new(
-        gateway          => 'Test',
-        receiver_email   => 'receiver@andrewalker.net',
-        currency         => 'BRL',
-        checkout_url     => '',
+        gateway      => 'Test',
+        receiver_id  => 'receiver@andrewalker.net',
+        currency     => 'BRL',
+        checkout_url => '',
     );
 };
 
@@ -40,7 +40,6 @@ if ($@) {
 
 isa_ok($cpi, 'Business::CPI::Gateway::Test');
 
-is($cpi->receiver_id, $cpi->receiver_email, 'receiver_id equals receiver_email');
 is($cpi->receiver_id, 'receiver@andrewalker.net', 'and both of them are correct');
 
 # XXX: maybe we should just die?

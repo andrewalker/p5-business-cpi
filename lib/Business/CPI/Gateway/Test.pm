@@ -15,7 +15,7 @@ sub get_hidden_inputs {
     my $cart  = $info->{cart};
 
     my @hidden_inputs = (
-        receiver_email => $self->receiver_email,
+        receiver_email => $self->receiver_id,
         currency       => $self->currency,
         encoding       => $self->form_encoding,
         payment_id     => $info->{payment_id},

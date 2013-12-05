@@ -5,10 +5,10 @@ use Test::More;
 use Business::CPI;
 
 my $cpi = Business::CPI->new(
-    gateway          => 'Test',
-    receiver_email   => 'receiver@andrewalker.net',
-    currency         => 'BRL',
-    checkout_url     => '',
+    gateway      => 'Test',
+    receiver_id  => 'receiver@andrewalker.net',
+    currency     => 'BRL',
+    checkout_url => '',
 );
 
 isa_ok($cpi, 'Business::CPI::Gateway::Test');

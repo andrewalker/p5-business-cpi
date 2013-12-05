@@ -8,11 +8,9 @@ with 'Business::CPI::Role::Gateway::Base';
 
 # VERSION
 
-has receiver_email => (
+has receiver_id => (
     is => 'ro',
 );
-
-sub receiver_id { goto \&receiver_email }
 
 has checkout_url => (
     is => 'rw',
@@ -36,16 +34,6 @@ has currency => (
     coerce => sub { uc $_[0] },
     is => 'ro',
 );
-
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-    my $args  = $class->$orig(@_);
-
-    $args->{receiver_email} = $args->{receiver_id} if $args->{receiver_id};
-
-    return $args;
-};
 
 sub new_account {
     my ($self, $account) = @_;
@@ -193,13 +181,6 @@ L<Business::CPI::Base::Account::Business> otherwise.
 
 ID, login or e-mail of the business owner. The way the gateway uniquely
 identifies the account owner.
-
-=attr receiver_email
-
-E-mail of the business owner. Currently, this an alias for receiver_id, for
-backcompatibility. The attribute is called C<receiver_email> only because some
-gateways set the account identification as the user's e-mail, but that's not
-always the case.
 
 =attr currency
 
