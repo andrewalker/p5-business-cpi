@@ -3,6 +3,7 @@ package Business::CPI::Gateway::Base;
 use Moo;
 use Locale::Currency ();
 use Data::Dumper;
+use Carp qw/croak/;
 
 with 'Business::CPI::Role::Gateway::Base';
 
@@ -123,6 +124,18 @@ sub _unimplemented {
     my $self = shift;
     die "Not implemented.";
 }
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $self = shift;
+    my $args = $self->$orig(@_);
+
+    if ($args->{receiver_email}) {
+        croak 'receiver_email attribute has been removed - use receiver_id instead';
+    }
+
+    return $args;
+};
 
 1;
 
