@@ -18,3 +18,5 @@ which uses L<< Receiver | Business::CPI::Role::Receiver >>.
 =head1 SEE ALSO
 
 L<Business::CPI::Role::Receiver>
+
+=for Pod::Coverage BUILDARGS

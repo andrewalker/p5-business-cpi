@@ -164,6 +164,11 @@ Handling to be applied to the total amount. Positive number.
 Create a new L<< Item | Business::CPI::Role::Item >> object with the given
 hashref, and add it to cart.
 
+=method add_receiver
+
+Create a new L<< Receiver | Business::CPI::Role::Receiver >> object with the
+given hashref, and add it to cart.
+
 =method get_item
 
 Get item with the given id.
