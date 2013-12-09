@@ -28,13 +28,13 @@ __END__
 
     # the objects are created with the same keys
     my $paypal = Business::CPI->new(
-        gateway        => "PayPal",
-        receiver_email => "test@example.com",
+        gateway     => "PayPal",
+        receiver_id => "test@example.com",
         ...
     );
     my $pagseguro = Business::CPI->new(
-        gateway        => "PagSeguro",
-        receiver_email => "test@example.com",
+        gateway     => "PagSeguro",
+        receiver_id => "test@example.com",
         ...
     );
 

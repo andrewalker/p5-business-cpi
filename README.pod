@@ -18,13 +18,13 @@ Business::CPI - Common Payment Interface
 
     # the objects are created with the same keys
     my $paypal = Business::CPI->new(
-        gateway        => "PayPal",
-        receiver_email => "test@example.com",
+        gateway     => "PayPal",
+        receiver_id => "test@example.com",
         ...
     );
     my $pagseguro = Business::CPI->new(
-        gateway        => "PagSeguro",
-        receiver_email => "test@example.com",
+        gateway     => "PagSeguro",
+        receiver_id => "test@example.com",
         ...
     );
 
@@ -57,12 +57,12 @@ in the future, as many gateways provide API's for paying using SOAP, NVP, etc.
 To submit a payment, first we make a Business::CPI object:
 
     my $cpi = Business::CPI->new(
-        gateway        => 'Test',
+        gateway     => 'Test',
 
         # the person who will receive the money
-        receiver_email => 'john@doe.com',
+        receiver_id => 'john@doe.com',
 
-        currency       => 'BRL',
+        currency    => 'BRL',
         # ...
     );
 
