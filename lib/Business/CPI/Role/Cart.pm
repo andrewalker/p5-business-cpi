@@ -18,7 +18,6 @@ has buyer => (
           or $_[0]->does('Business::CPI::Role::Account')
           or die "Must implement Business::CPI::Role::Buyer or Business::CPI::Role::Account";
     },
-    required => 1,
 );
 
 has tax => (
