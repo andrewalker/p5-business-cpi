@@ -21,21 +21,24 @@ has buyer => (
 );
 
 has tax => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => \&to_Money,
+    isa     => Money,
+    is      => 'rw',
+    default => sub { 0 },
 );
 
 has handling => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => \&to_Money,
+    isa     => Money,
+    is      => 'rw',
+    default => sub { 0 },
 );
 
 has discount => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => \&to_Money,
+    isa     => Money,
+    is      => 'rw',
+    default => sub { 0 },
 );
 
 has _gateway => (
