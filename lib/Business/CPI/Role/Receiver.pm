@@ -22,6 +22,12 @@ has is_primary => (
     default => sub { 0 },
 );
 
+has pay_gateway_fee => (
+    is      => 'rw',
+    isa     => Bool,
+    default => sub { 0 },
+);
+
 has fixed_amount   => ( is => 'rw', coerce => sub { 0 + $_[0] } );
 has percent_amount => ( is => 'rw', coerce => sub { 0 + $_[0] } );
 
@@ -58,14 +64,16 @@ payment being made.
         receivers => [
             {
                 # alias for account.gateway_id
-                gateway_id     => 2313,
+                gateway_id      => 2313,
 
-                fixed_amount   => 50.00,
-                percent_amount => 5.00,
+                fixed_amount    => 50.00,
+                percent_amount  => 5.00,
+                pay_gateway_fee => 1,
             },
             {
-                account      => $cpi->account_class->new({ ... }),
-                fixed_amount => 250.00,
+                account         => $cpi->account_class->new({ ... }),
+                fixed_amount    => 250.00,
+                pay_gateway_fee => 0,
             },
         ],
     });
@@ -87,6 +95,12 @@ never both.
 
 Boolean. Is this the main account receiving the money, or secondary? Defaults
 to false, i.e., it's a secondary receiver.
+
+=attr pay_gateway_fee
+
+Boolean attribute to define whether this receiver should be the one paying the
+gateway fees. Similar to the "feesPayer" parameter in Adaptive Payments in
+PayPal.
 
 =attr fixed_amount
 
