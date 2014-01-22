@@ -37,10 +37,10 @@ my $cart = $cpi->new_cart({
 });
 
 $cart->add_item({
-    id                  => 1,
-    description         => 'Sample item',
-    price               => 200,
-    quantity            => 10,
+    id          => 1,
+    description => 'Sample item',
+    price       => 200,
+    quantity    => 10,
 });
 
 ok(my $form = $cart->get_form_to_pay('pay123'), 'get form');
