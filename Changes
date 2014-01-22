@@ -1,6 +1,10 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Add defaults to Money types in the Cart role
+    - Add pay_gateway_fee key to the Receiver role
+
+0.911 2013-12-09T03:16:54Z
     - Documentation fixes (regarding receiver_id)
 
 0.910 2013-12-05T13:54:49Z
