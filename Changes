@@ -1,6 +1,9 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Remove pay_gateway_fee default value (0)
+
+0.912 2014-01-22T16:41:28Z
     - Add defaults to Money types in the Cart role
     - Add pay_gateway_fee key to the Receiver role
 

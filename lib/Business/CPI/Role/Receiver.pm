@@ -25,7 +25,6 @@ has is_primary => (
 has pay_gateway_fee => (
     is      => 'rw',
     isa     => Bool,
-    default => sub { 0 },
 );
 
 has fixed_amount   => ( is => 'rw', coerce => sub { 0 + $_[0] } );
