@@ -3,6 +3,7 @@ package Business::CPI::Role::Receiver;
 use utf8;
 use Moo::Role;
 use MooX::Types::MooseLike::Base qw/Bool/;
+use Business::CPI::Util::Types qw/Money to_Money/;
 
 # VERSION
 
@@ -27,8 +28,16 @@ has pay_gateway_fee => (
     isa     => Bool,
 );
 
-has fixed_amount   => ( is => 'rw', coerce => sub { 0 + $_[0] } );
-has percent_amount => ( is => 'rw', coerce => sub { 0 + $_[0] } );
+has fixed_amount => (
+    is     => 'rw',
+    isa    => Money,
+    coerce => \&to_Money,
+);
+
+has percent_amount => (
+    is     => 'rw',
+    coerce => sub { 0 + $_[0] }
+);
 
 around BUILDARGS => sub {
     my $orig = shift;
