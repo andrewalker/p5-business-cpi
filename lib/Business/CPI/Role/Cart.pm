@@ -5,6 +5,7 @@ use Moo::Role;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
 use Business::CPI::Util::Types qw/Money to_Money/;
+use List::Util qw/sum/;
 
 # VERSION
 
@@ -41,6 +42,14 @@ has discount => (
     default => sub { 0 },
 );
 
+has shipping => (
+    coerce => \&to_Money,
+    isa    => Money,
+    is     => 'rw',
+    default => sub { 0 },
+);
+
+
 has _gateway => (
     is       => 'ro',
     required => 1,
@@ -59,6 +68,42 @@ has _receivers => (
     is => 'ro',
     default => sub { [] },
 );
+
+sub get_total_shipping {
+    my ($self) = @_;
+
+    my $amount = 0;
+
+    foreach my $item (@{ $self->_items }) {
+        my $item_shipping = 0;
+
+        if ($item->has_shipping) {
+            $item_shipping = $item->shipping +
+              ( $item->quantity - 1 ) *
+              (   $item->has_shipping_additional
+                ? $item->shipping_additional
+                : $item->shipping );
+        }
+
+        $amount += $item_shipping;
+    }
+
+    return $amount + $self->shipping;
+}
+
+sub get_total_amount {
+    my ($self) = @_;
+
+    my $amount = sum( map { $_->price * $_->quantity } @{ $self->_items } );
+
+    $amount +=
+      $self->get_total_shipping +
+      $self->tax +
+      $self->handling -
+      $self->discount;
+
+    return $amount;
+}
 
 sub get_item {
     my ($self, $item_id) = @_;
@@ -162,6 +207,19 @@ Tax to be added to the total amount. Positive number.
 =attr handling
 
 Handling to be added to the total amount. Positive number.
+
+=attr shipping
+
+Price of the shipping to be added to the total amount. Positive number.
+
+=method get_total_shipping
+
+Traverse all items from this cart and returns the sum of each shipping cost,
+plus the value of the shipping attribute.
+
+=method get_total_amount
+
+Calculates the total amount of the cart.
 
 =method add_item
 

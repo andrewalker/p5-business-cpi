@@ -1,6 +1,13 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Add List::Util dependency
+    - Add shipping attribute to the Cart role
+    - Add get_total_shipping and get_total_amount methods to the Cart role
+    - Add has_shipping and has_shipping_additional predicates to the Item role
+    - Minor documentation adjustments
+
+0.914 2014-01-30T19:43:56Z
     - Use Money type for receivers "fixed_amount"
 
 0.913 2014-01-22T17:01:27Z

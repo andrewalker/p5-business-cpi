@@ -7,6 +7,7 @@ requires 'Email::Valid';
 requires 'Class::Load', '0.20';
 requires 'HTML::Element';
 requires 'Scalar::Util';
+requires 'List::Util';
 requires 'DateTime';
 
 on 'test' => sub {

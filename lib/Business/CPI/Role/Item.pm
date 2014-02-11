@@ -25,15 +25,17 @@ has weight => (
 );
 
 has shipping => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'ro',
+    coerce    => \&to_Money,
+    isa       => Money,
+    is        => 'ro',
+    predicate => 1,
 );
 
 has shipping_additional => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'ro',
+    coerce    => \&to_Money,
+    isa       => Money,
+    is        => 'ro',
+    predicate => 1,
 );
 
 has description => (
@@ -91,3 +93,11 @@ shipping2.
 
 The weight of this item. If you define the L</shipping>, this will probably be
 ignored by the gateway.
+
+=method has_shipping
+
+Predicate for shipping attribute.
+
+=method has_shipping_additional
+
+Predicate for shipping_additional attribute.
