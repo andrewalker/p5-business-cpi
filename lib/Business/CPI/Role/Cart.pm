@@ -147,19 +147,21 @@ The id your gateway has set for this cart, if there is one.
 =attr buyer
 
 The person paying for the shopping cart. See L<Business::CPI::Role::Buyer> or
-L<Business::CPI::Role::Account>.
+L<Business::CPI::Role::Account>. (This is a bit confusing because the interface
+isn't stable yet, and we are planning a transition from the Buyer role to the
+Account role. But most CPI gateways still use the Buyer role.)
 
 =attr discount
 
-Discount to be applied to the total amount. Positive number.
+Discount to be subtracted from the total amount. Positive number.
 
 =attr tax
 
-Tax to be applied to the total amount. Positive number.
+Tax to be added to the total amount. Positive number.
 
 =attr handling
 
-Handling to be applied to the total amount. Positive number.
+Handling to be added to the total amount. Positive number.
 
 =method add_item
 
