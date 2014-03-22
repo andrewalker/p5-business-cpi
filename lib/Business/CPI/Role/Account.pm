@@ -2,8 +2,9 @@ package Business::CPI::Role::Account;
 # ABSTRACT: Manage accounts in the gateway
 use Moo::Role;
 use utf8;
-use MooX::Types::MooseLike::Base qw/Bool/;
-use Business::CPI::Util::Types qw/PhoneNumber to_PhoneNumber EmailAddress DateTime/;
+use Business::CPI::Util::Types qw/PhoneNumber DateTime/;
+use Type::EmailAddress qw/EmailAddress/;
+use Types::Standard qw/Bool/;
 
 # VERSION
 
@@ -25,7 +26,7 @@ has last_name  => ( is => 'rw' );
 has phone => (
     is     => 'rw',
     isa    => PhoneNumber,
-    coerce => \&to_PhoneNumber,
+    coerce => PhoneNumber->coercion,
 );
 
 has login => ( is => 'rw' );

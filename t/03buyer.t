@@ -88,7 +88,7 @@ use Business::CPI::Base::Buyer;
 
     ok(!$buyer, 'the $buyer object is not defined when country is wrong');
     ok($@, "there was an error building");
-    like($@, qr/check.*address_country.*failed/, 'the error was for the correct reason');
+    like($@, qr/did not pass type constraint "Country"/, 'the error was for the correct reason');
 }
 
 # TEST DEFAULT ADDRESS LINE1, LINE2

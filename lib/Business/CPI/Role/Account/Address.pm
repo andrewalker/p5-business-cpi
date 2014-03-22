@@ -2,7 +2,7 @@ package Business::CPI::Role::Account::Address;
 # ABSTRACT: Business::CPI role for Addresses
 use Moo::Role;
 use utf8;
-use Business::CPI::Util::Types qw/Country to_Country/;
+use Business::CPI::Util::Types qw/Country/;
 
 # VERSION
 
@@ -22,7 +22,7 @@ has state      => ( is => 'rw' ); # TODO: compare against Brazilian UF's, if cou
 has country => (
     is     => 'rw',
     isa    => Country,
-    coerce => \&to_Country,
+    coerce => Country->coercion,
 );
 
 sub _build_line1 {

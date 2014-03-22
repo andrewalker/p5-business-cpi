@@ -2,67 +2,63 @@ package Business::CPI::Util::Types;
 # ABSTRACT: Basic types for Business::CPI
 use warnings;
 use strict;
-use base qw(Exporter);
 use Scalar::Util qw/looks_like_number blessed/;
-use MooX::Types::MooseLike qw(exception_message);
-use MooX::Types::MooseLike::Base;
+use List::Util qw/first/;
 use Locale::Country ();
 use Email::Valid ();
 
+use Type::Utils -all;
+use Types::Standard qw/Str/;
+use Type::Library
+   -base,
+   -declare => qw( DateTime Country Money PhoneNumber );
+
 # VERSION
 
-our @EXPORT_OK = qw/to_Money to_PhoneNumber to_Country/;
-our %EXPORT_TAGS = (all => \@EXPORT_OK);
+class_type DateTime, { class => "DateTime" };
 
-MooX::Types::MooseLike::register_types([
-    {
-        name    => 'Money',
-        test    => sub { $_[0] =~ m#^[\d\,]+\.\d{2}$# },
-        message => sub { exception_message( $_[0], 'money' ) },
-        inflate => 0,
-    },
-    {
-        name    => 'PhoneNumber',
-        test    => sub { $_[0] =~ m#^\+?\d+$# },
-        message => sub { exception_message( $_[0], 'phone number' ) },
-        inflate => 0,
-    },
-    {
-        name    => 'EmailAddress',
-        test    => sub { Email::Valid->address($_[0]) },
-        message => sub { exception_message( $_[0], 'e-mail address' ) },
-        inflate => 0,
-    },
-    {
-        name => 'Country',
-        test => sub {
-            my $c = $_[0];
-            for (Locale::Country::all_country_codes()) {
-                return 1 if $_ eq $c;
-            }
-        },
-        message => sub { exception_message( $_[0], '2-letter country code' ) },
-        inflate => 0,
-    },
-    {
-        name    => 'DateTime',
-        test    => sub { blessed($_[0]) && $_[0]->isa('DateTime') },
-        message => sub { exception_message( $_[0], 'DateTime object' ) },
-        inflate => 0,
-    },
-], __PACKAGE__);
+my @CountryCodes = Locale::Country::all_country_codes();
 
-sub to_Money {
-    my $r = looks_like_number($_[0]) ? $_[0] : 0;
+declare Country, as Str,
+  where {
+    my $re = qr/^$_$/;
+    return !! first { m|$re| } @CountryCodes;
+  };
+
+coerce Country,
+  from Str,
+  via {
+    my $country = lc $_;
+    my $re = qr/^$country$/;
+    if (first { m|$re| } @CountryCodes) {
+        return $country;
+    }
+    return Locale::Country::country2code($country) || '';
+  };
+
+declare Money,
+  as Str,
+  where { m|^ [\d\,]+ \. \d{2} $|x };
+
+coerce Money,
+  from Str,
+  via {
+    my $r = looks_like_number($_) ? $_ : 0;
     return sprintf( "%.2f", 0+$r);
-}
+  };
 
-sub to_PhoneNumber {
+declare PhoneNumber,
+  as Str,
+  where { m|^ \+? \d+ $|x };
+
+coerce PhoneNumber,
+  from Str,
+  via {
     # avoid warnings
-    return unless defined $_[0];
+    return '' unless defined $_;
 
     # force it to stringify
-    my $r = "$_[0]";
+    my $r = "$_";
 
     # Remove anything that is not alphanumerical or "+"
     # Note that we are using \w instead of \d here, because this sub is used
@@ -71,15 +67,7 @@ sub to_PhoneNumber {
     $r =~ s{[^\+\w]}{}g;
 
     return $r;
-}
-
-sub to_Country {
-    my $country = lc $_[0];
-    for (Locale::Country::all_country_codes()) {
-        return $_ if $_ eq $country;
-    }
-    return Locale::Country::country2code($country);
-}
+  };
 
 1;
 
@@ -87,13 +75,11 @@ __END__
 
 =head1 DESCRIPTION
 
-Moo types for isa checks and coersions.
+Moo types for isa checks and coercions.
 
 =head1 TYPES
 
 =head2 Money
-
-=head2 to_Money
 
 Most gateways require the money amount to be provided with two decimal places.
 This method coerces the value into number, and then to a string as expected by
@@ -112,8 +98,6 @@ Examples:
 =back
 
 =head2 PhoneNumber
-
-=head2 to_PhoneNumber
 
 Phone numbers should contain an optional + sign in the beginning, indicating
 whether it contains the country code or not, and numbers only.
@@ -140,8 +124,6 @@ Examples of accepted phone numbers, and their coerced values are:
 
 =head2 Country
 
-=head2 to_Country
-
 Lowercase two-letter code for countries, according to ISO 3166-1. See:
 
 L<http://www.iso.org/iso/country_codes>
@@ -149,10 +131,6 @@ L<http://www.iso.org/iso/country_codes>
 The type is somewhat flexible, coercing to the alpha-2 code if the English name
 is provided. But the recommended way is to set it as expected, the lowercase
 alpha-2 code.
-
-=head2 EmailAddress
-
-A valid e-mail address.
 
 =head2 DateTime
 

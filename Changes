@@ -1,6 +1,9 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Replace MooX::Types::MooseLike with Types::Tiny
+
+0.915 2014-02-11T18:29:18Z
     - Add List::Util dependency
     - Add shipping attribute to the Cart role
     - Add get_total_shipping and get_total_amount methods to the Cart role

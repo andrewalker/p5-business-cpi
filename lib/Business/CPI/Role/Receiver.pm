@@ -2,8 +2,8 @@ package Business::CPI::Role::Receiver;
 # ABSTRACT: The person receiving the money
 use utf8;
 use Moo::Role;
-use MooX::Types::MooseLike::Base qw/Bool/;
-use Business::CPI::Util::Types qw/Money to_Money/;
+use Business::CPI::Util::Types qw/Money/;
+use Types::Standard qw/Bool/;
 
 # VERSION
 
@@ -31,7 +31,7 @@ has pay_gateway_fee => (
 has fixed_amount => (
     is     => 'rw',
     isa    => Money,
-    coerce => \&to_Money,
+    coerce => Money->coercion,
 );
 
 has percent_amount => (

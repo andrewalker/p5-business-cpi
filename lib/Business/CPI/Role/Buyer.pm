@@ -2,7 +2,9 @@ package Business::CPI::Role::Buyer;
 # ABSTRACT: Information about the client
 use Moo::Role;
 use Locale::Country ();
-use Business::CPI::Util::Types qw/EmailAddress/;
+use Business::CPI::Util::Types qw/Country/;
+use Types::Standard qw/Str/;
+use Type::EmailAddress qw/EmailAddress/;
 
 # VERSION
 
@@ -12,7 +14,7 @@ has email => (
 );
 
 has name => (
-#    isa => 'Str',
+    isa => Str,
     is => 'ro',
 );
 
@@ -29,18 +31,8 @@ has address_state      => ( is => 'ro', required => 0 );
 has address_country    => (
     is => 'ro',
     required => 0,
-    isa => sub {
-        for (Locale::Country::all_country_codes()) {
-            return 1 if $_ eq $_[0];
-        }
-    },
-    coerce => sub {
-        my $country = lc $_[0];
-        for (Locale::Country::all_country_codes()) {
-            return $_ if $_ eq $country;
-        }
-        return Locale::Country::country2code($country);
-    },
+    isa => Country,
+    coerce => Country->coercion,
 );
 
 sub _build_address_line1 {

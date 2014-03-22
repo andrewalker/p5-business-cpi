@@ -42,7 +42,7 @@ my $class = 'Business::CPI::Base::Account';
     ok(!$obj, 'object is undefined');
     throws_ok { $obj = $class->new( registration_date => '2000-01-01', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to registration_date attribute (again)';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( email => 'a@@b', _gateway => $gtw ) } qr{e-mail}, 'attempting to set an invalid email';
+    throws_ok { $obj = $class->new( email => 'a@@b', _gateway => $gtw ) } qr{EmailAddress}, 'attempting to set an invalid email';
     ok(!$obj, 'object is undefined');
 }
 
