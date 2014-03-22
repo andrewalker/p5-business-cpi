@@ -1,6 +1,6 @@
 requires 'perl', 5.008;
 requires 'Moo', 1.0;
-requires 'Types::Tiny';
+requires 'Type::Tiny';
 requires 'Type::EmailAddress';
 requires 'Locale::Currency';
 requires 'Locale::Country';
