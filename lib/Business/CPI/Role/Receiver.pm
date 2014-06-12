@@ -12,6 +12,11 @@ has _gateway => (
     required => 1,
 );
 
+has gateway_fee => (
+    is       => 'rwp',
+    required => 0,
+);
+
 has account => (
     is       => 'rw',
     required => 1,
@@ -109,6 +114,10 @@ to false, i.e., it's a secondary receiver.
 Boolean attribute to define whether this receiver should be the one paying the
 gateway fees. Similar to the "feesPayer" parameter in Adaptive Payments in
 PayPal.
+
+=attr gateway_fee
+
+The fee amount this receiver was charged by the gateway.
 
 =attr fixed_amount
 

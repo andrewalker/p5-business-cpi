@@ -12,6 +12,7 @@ use List::Util qw/sum/;
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
+has gateway_fee => ( is => 'rwp' );
 
 has buyer => (
     is  => 'ro',
@@ -191,6 +192,10 @@ The id of the cart, if your application has one set for it.
 =attr gateway_id
 
 The id your gateway has set for this cart, if there is one.
+
+=attr gateway_fee
+
+The fee your gateway has charged for this cart, if there is one.
 
 =attr buyer
 
