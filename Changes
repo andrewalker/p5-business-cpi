@@ -1,6 +1,10 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Add gateway_fee attribute to the Cart role
+    - Create Status and Exception roles and base classes
+
+0.916 2014-04-01T17:20:49Z
     - Replace MooX::Types::MooseLike with Types::Tiny
 
 0.915 2014-02-11T18:29:18Z
