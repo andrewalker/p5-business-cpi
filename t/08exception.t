@@ -9,7 +9,7 @@ use Try::Tiny;
 
 throws_ok {
     Business::CPI::Base::Exception->throw(
-        code => 123,
+        type => 'unknown',
         message => 'error code 123',
         gateway_data => {
             foo => 1,
@@ -21,7 +21,7 @@ throws_ok {
 
 my $exception = $@;
 
-is( $exception->code, 123, q{code is 123} );
+is( $exception->type, 'unknown', q{code is 123} );
 is( $exception->message, 'error code 123', q{message is ok} );
 is_deeply(
     $exception->gateway_data,

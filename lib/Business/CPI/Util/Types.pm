@@ -11,9 +11,23 @@ use Type::Utils -all;
 use Types::Standard qw/Str/;
 use Type::Library
    -base,
-   -declare => qw( DateTime Country Money PhoneNumber );
+   -declare => qw( DateTime Country Money PhoneNumber ExceptionType );
 
 # VERSION
+
+enum ExceptionType, [qw.
+    invalid_data
+    incomplete_data
+    invalid_request
+    resource_not_found
+    unauthorized
+    unauthenticated
+    duplicate_transaction
+    rejected
+    gateway_unavailable
+    gateway_error
+    unknown
+.];
 
 class_type DateTime, { class => "DateTime" };
 
