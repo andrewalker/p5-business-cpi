@@ -15,14 +15,12 @@ has type => (
 );
 
 has message => (
-    coerce   => Str->coercion,
     isa      => Str,
     is       => 'ro',
     required => 1,
 );
 
 has gateway_data => (
-    coerce   => HashRef->coercion,
     isa      => HashRef,
     is       => 'ro',
     required => 1,

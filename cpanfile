@@ -1,7 +1,7 @@
 requires 'perl', 5.008;
 requires 'Moo', 1.0;
 requires 'Throwable';
-requires 'Type::Tiny';
+requires 'Type::Tiny', 1.0;
 requires 'Type::EmailAddress';
 requires 'Locale::Currency';
 requires 'Locale::Country';
