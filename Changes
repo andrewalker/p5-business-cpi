@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+
+0.919 2014-09-22T18:13:06Z
     - Update Type::Tiny version requirement
     - Remove coercions where coercions are not necessary in Exception class
 
