@@ -10,8 +10,8 @@ use Email::Valid ();
 use Type::Utils -all;
 use Types::Standard qw/Str/;
 use Type::Library
-   -base,
-   -declare => qw( DateTime Country Money PhoneNumber ExceptionType );
+  -base,
+  -declare => qw( DateTime Country Money PhoneNumber ExceptionType UserAgent );
 
 # VERSION
 
@@ -30,6 +30,8 @@ enum ExceptionType, [qw.
 .];
 
 class_type DateTime, { class => "DateTime" };
+
+class_type UserAgent, { class => 'LWP::UserAgent' };
 
 my @CountryCodes = Locale::Country::all_country_codes();
 
