@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Drop deprecated author dependency, thanks to sergeyromanov
+    - Add error and user_agent attributes
 
 0.919 2014-09-22T18:13:06Z
     - Update Type::Tiny version requirement
