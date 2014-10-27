@@ -6,12 +6,18 @@ use strict;
 # VERSION
 
 sub new      { bless {}, shift }
-sub is_debug {}
+
 sub debug    {}
 sub info     {}
 sub warn     {}
 sub error    {}
 sub fatal    {}
+
+sub is_debug {}
+sub is_info  {}
+sub is_warn  {}
+sub is_error {}
+sub is_fatal {}
 
 1;
 
