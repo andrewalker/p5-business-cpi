@@ -39,8 +39,6 @@ Log::Dispatcher, etc) when building the Business::CPI gateway object, such as:
 
 Constructor.
 
-=method is_debug
-
 =method debug
 
 =method info
@@ -53,3 +51,15 @@ Constructor.
 
 None of these do anything. It's called by Business::CPI internally, but it's
 just a placeholder.
+
+=method is_debug
+
+=method is_info
+
+=method is_warn
+
+=method is_error
+
+=method is_fatal
+
+All return false by default.
