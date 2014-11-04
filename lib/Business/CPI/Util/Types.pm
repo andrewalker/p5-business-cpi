@@ -11,7 +11,10 @@ use Type::Utils -all;
 use Types::Standard qw/Str/;
 use Type::Library
   -base,
-  -declare => qw( DateTime Country Money PhoneNumber ExceptionType UserAgent );
+  -declare => qw(
+     DateTime Country Money PhoneNumber
+     ExceptionType UserAgent HTTPResponse
+  );
 
 # VERSION
 
@@ -32,6 +35,7 @@ enum ExceptionType, [qw.
 class_type DateTime, { class => "DateTime" };
 
 class_type UserAgent, { class => 'LWP::UserAgent' };
+class_type HTTPResponse, { class => 'HTTP::Response' };
 
 my @CountryCodes = Locale::Country::all_country_codes();
 
