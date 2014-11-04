@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+
+0.921 2014-10-28T16:03:20Z
     - Add is_* methods to EmptyLogger
 
 0.920 2014-10-23T19:49:39Z
