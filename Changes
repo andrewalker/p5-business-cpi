@@ -1,6 +1,8 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+
+0.922 2014-11-05T17:52:30Z
     - Create most_recent_request attribute in base gateway
 
 0.921 2014-10-28T16:03:20Z
