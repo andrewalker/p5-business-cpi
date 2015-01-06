@@ -11,6 +11,7 @@ requires 'HTML::Element';
 requires 'Scalar::Util';
 requires 'List::Util';
 requires 'DateTime';
+requires 'LWP::UserAgent';
 
 on 'test' => sub {
     requires 'Test::Exception', '0.32';
