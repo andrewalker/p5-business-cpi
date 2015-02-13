@@ -1,6 +1,10 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Make Money type accept negative amounts
+
+0.923 2015-01-06T15:34:07Z
+    - Add LWP::UserAgent dependency
 
 0.922 2014-11-05T17:52:30Z
     - Create most_recent_request attribute in base gateway

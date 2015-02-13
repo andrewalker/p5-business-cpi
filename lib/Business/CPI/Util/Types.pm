@@ -58,7 +58,7 @@ coerce Country,
 
 declare Money,
   as Str,
-  where { m|^ [\d\,]+ \. \d{2} $|x };
+  where { m|^ \-? [\d\,]+ \. \d{2} $|x };
 
 coerce Money,
   from Str,
