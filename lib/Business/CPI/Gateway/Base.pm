@@ -139,7 +139,7 @@ sub get_checkout_code { shift->_unimplemented }
 
 sub _unimplemented {
     my $self = shift;
-    die "Not implemented.";
+    die $self->log->fatal("Not implemented.");
 }
 
 sub _build_user_agent {

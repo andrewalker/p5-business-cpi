@@ -1,6 +1,7 @@
 Revision history for Perl module Business::CPI.
 
 {{$NEXT}}
+    - Replace EmptyLogger with SimpleLogger
     - Make Money type accept negative amounts
 
 0.923 2015-01-06T15:34:07Z
