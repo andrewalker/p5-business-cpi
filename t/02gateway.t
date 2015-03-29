@@ -13,7 +13,7 @@ my $cpi = eval {
     );
 };
 
-ok($cpi, 'the object was is defined');
+ok($cpi, 'the object is defined');
 ok(!$@, 'no error');
 
 if ($@) {

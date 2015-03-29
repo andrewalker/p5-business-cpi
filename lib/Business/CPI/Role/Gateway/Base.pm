@@ -3,7 +3,7 @@ package Business::CPI::Role::Gateway::Base;
 use Moo::Role;
 use utf8;
 use Business::CPI::Util;
-use Business::CPI::Util::EmptyLogger;
+use Business::CPI::Util::SimpleLogger;
 
 # VERSION
 
@@ -14,7 +14,7 @@ has driver_name => (
 
 has log => (
     is => 'ro',
-    default => sub { Business::CPI::Util::EmptyLogger->new },
+    default => sub { Business::CPI::Util::SimpleLogger->new },
 );
 
 has item_class => (
